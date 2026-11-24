@@ -659,7 +659,6 @@
                 </div>
 
                 <h4>Jenis hari dan gandaan OT</h4>
-                <button className="btn g" onClick={() => mod(c => c.dayTypes.push({ id: Date.now(), name: 'Baru', isTiered: false, rate: 1.5, tier1Hours: 8, tier1Rate: 2, tier2Rate: 3 }))}>Tambah jenis hari</button>
                 {s.dayTypes.map(t => (
                   <div className="card" key={t.id} style={{ padding: 10, margin: '8px 0' }}>
                     <div className="li" style={{ gridTemplateColumns: '1fr 34px' }}>
@@ -672,6 +671,7 @@
                       : <Num label="Kadar × asas" step="0.5" value={t.rate} onChange={e => dtUpd(t.id, 'rate', e.target.value)} />}
                   </div>
                 ))}
+                <button className="btn g" onClick={() => mod(c => c.dayTypes.push({ id: Date.now(), name: 'Baru', isTiered: false, rate: 1.5, tier1Hours: 8, tier1Rate: 2, tier2Rate: 3 }))}>Tambah jenis hari</button>
 
                 <h4>Elaun syif (RM)</h4>
                 <div className="g3">{Object.keys(DEF.allowances).map(k => <Num key={k} label={k} value={s.allowances[k]} onChange={e => mod(c => { c.allowances[k] = e.target.value; })} />)}</div>
