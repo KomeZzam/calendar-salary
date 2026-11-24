@@ -2,540 +2,728 @@
 <html lang="ms">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jadual Syif Q • KoMeZ</title>
-    <style>
-      :root {
-        --bg: #0f172a;
-        --card: #1e293b;
-        --panel: #0f172a;
-        --border: #334155;
-        --text: #f8fafc;
-        --muted: #94a3b8;
-        --accent: #38bdf8;
-        --green: #22c55e;
-        --amber: #f59e0b;
-        --red: #ef4444;
-      }
-      body {
-        font-family: system-ui, -apple-system, Arial, sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        margin: 0;
-        padding: 14px;
-      }
-      .app {
-        max-width: 520px;
-        margin: 0 auto 32px auto;
-      }
-      .kad {
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 16px;
-        margin-bottom: 14px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-      }
-      h1 {
-        font-size: 1.3rem;
-        margin: 0;
-        color: var(--accent);
-      }
-      h2 {
-        font-size: 1rem;
-        margin: 0 0 10px 0;
-        color: #e2e8f0;
-      }
-      .sub {
-        font-size: 0.8rem;
-        color: var(--muted);
-        margin-top: 4px;
-      }
-      .grid-2 {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
-      .grid-3 {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-      }
-      label {
-        display: block;
-        font-size: 0.78rem;
-        color: #cbd5e1;
-        margin-top: 10px;
-      }
-      input, select, textarea {
-        width: 100%;
-        box-sizing: border-box;
-        margin-top: 4px;
-        padding: 8px 10px;
-        border-radius: 8px;
-        border: 1px solid #475569;
-        background: var(--panel);
-        color: var(--text);
-        font-size: 0.9rem;
-      }
-      .nav-tempoh {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 8px;
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 8px 10px;
-        margin-top: 10px;
-      }
-      .btn {
-        border: none;
-        border-radius: 8px;
-        padding: 9px 12px;
-        font-weight: 700;
-        font-size: 0.85rem;
-        cursor: pointer;
-      }
-      .btn-nav {
-        background: #334155;
-        color: #fff;
-      }
-      .btn-hijau {
-        background: var(--green);
-        color: #052e16;
-      }
-      .btn-biru {
-        background: var(--accent);
-        color: #082f49;
-      }
-      .btn-merah {
-        background: var(--red);
-        color: #fff;
-      }
-      .kalendar-head, .kalendar-grid {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 5px;
-        margin-top: 8px;
-      }
-      .hari-lbl {
-        text-align: center;
-        font-size: 0.72rem;
-        color: var(--muted);
-        font-weight: 700;
-      }
-      .sel {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 6px 2px;
-        text-align: center;
-        cursor: pointer;
-        min-height: 48px;
-      }
-      .sel.hari-ini {
-        border-color: var(--accent);
-        box-shadow: inset 0 0 0 1px var(--accent);
-      }
-      .sel.dipilih {
-        background: #172554;
-        border-color: #60a5fa;
-      }
-      .no-hari {
-        font-size: 0.82rem;
-        font-weight: 700;
-      }
-      .tag-kod {
-        margin-top: 3px;
-        font-size: 0.68rem;
-        font-weight: 700;
-        padding: 2px 4px;
-        border-radius: 4px;
-        display: inline-block;
-      }
-      .k-m { background: #0284c7; color: #fff; }
-      .k-n { background: #6d28d9; color: #fff; }
-      .k-off { background: #15803d; color: #fff; }
-      .k-ot { background: #b45309; color: #fff; }
-      .ringkasan-bar {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-        margin-top: 12px;
-      }
-      .kotak-stat {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 8px;
-        text-align: center;
-      }
-      .kotak-stat .val {
-        font-size: 1rem;
-        font-weight: 700;
-        color: var(--accent);
-      }
-      .kotak-stat .lbl {
-        font-size: 0.7rem;
-        color: var(--muted);
-      }
-      .panel-tarikh {
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 12px;
-        margin-top: 12px;
-      }
-      .gaji-box {
-        background: var(--panel);
-        border-left: 4px solid var(--green);
-        border-radius: 10px;
-        padding: 12px;
-        margin-top: 12px;
-      }
-      .gaji-besar {
-        font-size: 1.4rem;
-        font-weight: 800;
-        color: #4ade80;
-        margin-top: 4px;
-      }
-      .baris-aksi {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-top: 12px;
-      }
-      .baris-aksi .btn {
-        flex: 1;
-        min-width: 110px;
-      }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Calendar $alary • KoMeZ</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   </head>
-  <body>
-    <div class="app">
-      <div class="kad">
-        <h1>Jadual Syif Q</h1>
-        <div class="sub">Kitaran 4 Kerja 2 Cuti • Kitaran Gaji 20hb – 19hb • KoMeZ</div>
+  <body style="margin:0;background:#0d1117;">
+    <div id="root"></div>
 
-        <div class="grid-2">
-          <div>
-            <label for="tarikhMula">Tarikh Mula Kitaran (Hari 1)</label>
-            <input id="tarikhMula" type="date" onchange="simpanUtama()" />
-          </div>
-          <div>
-            <label for="corakKitaran">Corak 6 Hari (4 Kerja + 2 Cuti)</label>
-            <select id="corakKitaran" onchange="simpanUtama()">
-              <option value="4m2off">m, m, m, m, OFF, OFF</option>
-              <option value="4n2off">n, n, n, n, OFF, OFF</option>
-              <option value="2m2n2off">m, m, n, n, OFF, OFF</option>
-            </select>
-          </div>
-        </div>
+    <script type="text/babel">
+      const { useState, useEffect, useMemo, useRef } = React;
 
-        <div class="nav-tempoh">
-          <button class="btn btn-nav" onclick="an需求Bulan(-1)">◀ Prev</button>
-          <div id="labelTempoh" style="font-size: 0.85rem; font-weight: 700; text-align: center;"></div>
-          <button class="btn btn-nav" onclick="an需求Bulan(1)">Next ▶</button>
-        </div>
+      /* Jadual Syif Q — versi React (satu fail, tiada Tailwind, tiada pakej tambahan).
+         Data guna kunci localStorage yang sama dengan app asal. */
 
-        <div class="kalendar-head">
-          <div class="hari-lbl">Ahd</div>
-          <div class="hari-lbl">Isn</div>
-          <div class="hari-lbl">Sel</div>
-          <div class="hari-lbl">Rab</div>
-          <div class="hari-lbl">Kha</div>
-          <div class="hari-lbl">Jum</div>
-          <div class="hari-lbl">Sab</div>
-        </div>
-        <div id="gridKalendar" class="kalendar-grid"></div>
+      const CSS = `
+      @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&display=swap');
+      .kz{--bg:#0d1117;--card:#161b24;--c2:#1f2632;--tx:#eef1f6;--mut:#8a94a6;--bd:#273040;--ac:#f5b73b;--sun1:#f5b73b;--sun2:#e8803a;--mo1:#5b6cf0;--mo2:#3a3f8f;--off:#c9ced8;--bad:#fb7185;--ok:#34d399;min-height:100vh;background:var(--bg);color:var(--tx);font:14px/1.4 "Bricolage Grotesque",system-ui,sans-serif;padding:env(safe-area-inset-top,0) 0 84px;box-sizing:border-box}
+      @media(prefers-color-scheme:light){.kz.auto{--bg:#f3f4f8;--card:#fff;--c2:#eceef4;--tx:#141821;--mut:#667085;--bd:#dfe3ec;--off:#aeb4c2}}
+      .kz *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+      .kz button,.kz input,.kz select,.kz textarea{font:inherit;color:inherit}
+      .kz button{cursor:pointer;border:0;background:none}
+      .kz .top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg)}
+      .kz .top h1{margin:0;font-size:18px;font-weight:800;letter-spacing:-.02em}
+      .kz .top small{color:var(--mut);font-size:11px}
+      .kz .ib{width:38px;height:38px;border-radius:12px;background:var(--c2);display:inline-flex;align-items:center;justify-content:center;margin-left:6px;transition:transform .15s}
+      .kz .ib:active{transform:scale(.9)}.kz .ib.on{background:var(--ac);color:#1a1200}
+      .kz .ib svg,.kz .tab svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+      .kz main{max-width:640px;margin:0 auto;padding:0 12px}
+      .kz .hero{position:relative;background:linear-gradient(135deg,var(--card),var(--c2));border:1px solid var(--bd);border-radius:22px;padding:16px;margin-bottom:12px}
+      .kz .hero-toggle{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.06);color:var(--mut);display:flex;align-items:center;justify-content:center;transition:transform .15s}
+      .kz .hero-toggle:active{transform:scale(.9)}.kz .hero-toggle svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+      .kz .hero-top{display:flex;gap:14px;align-items:center}
+      .kz .ring{position:relative;width:86px;height:86px;flex:none}
+      .kz .ring svg{width:86px;height:86px;transform:rotate(-90deg)}
+      .kz .ring b{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:22px;font-weight:800;line-height:1}
+      .kz .ring b span{font-size:9px;color:var(--mut);font-weight:500;margin-top:2px}
+      .kz .hero .l{font-size:11px;color:var(--mut)}
+      .kz .hero .net{font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums}
+      .kz .hero .sub{font-size:12px;color:var(--mut);margin-top:4px}.kz .hero .sub i{font-style:normal;color:var(--ac)}
+      .kz .hero-foot{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:12px;padding-top:10px;border-top:1px solid var(--bd)}
+      .kz .hero-legend{display:flex;flex-wrap:wrap;gap:8px 12px;font-size:10px;color:var(--mut);flex:1;min-width:150px}
+      .kz .hero-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+      .kz .hero-legend .ot-key{width:10px;height:3px;border-radius:2px;background:#fff}
+      .kz .hero-actions{display:flex;gap:6px;flex-wrap:wrap}
+      .kz .ot-toggle{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:99px;border:1px solid var(--bd);background:var(--c2);color:var(--mut);font-size:10px;font-weight:700;transition:transform .15s}
+      .kz .ot-toggle:active{transform:scale(.95)}.kz .ot-toggle.on{color:var(--ac);border-color:var(--ac)}
+      .kz .ot-toggle svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+      .kz .net-show{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px;margin-bottom:12px;border:1px dashed var(--bd);border-radius:16px;background:var(--card);color:var(--mut);font-size:12px;font-weight:600}
+      .kz .net-show svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+      .kz .hero-title{text-align:center;margin:8px 0 12px}
+      .kz .hero-title h1{margin:0;font-size:clamp(15px,4.3vw,18px);font-weight:800;letter-spacing:-.02em;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .kz .nav{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 8px}
+      .kz .nav h2{margin:0;font-size:15px;font-weight:700;text-align:center}
+      .kz .nav h2 small{display:block;font-size:11px;font-weight:500;color:var(--mut)}
+      .kz .dow,.kz .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+      .kz .dow{text-align:center;font-size:10px;color:var(--mut);margin-bottom:4px}
+      .kz .grid.sr{animation:kzsr .35s cubic-bezier(.16,1,.3,1)}.kz .grid.sl{animation:kzsl .35s cubic-bezier(.16,1,.3,1)}
+      @keyframes kzsr{from{transform:translateX(50px);opacity:0}}@keyframes kzsl{from{transform:translateX(-50px);opacity:0}}
+      @keyframes kzf{from{opacity:0}}@keyframes kzu{from{transform:translateY(40px);opacity:0}}
+      .kz .cell{position:relative;min-height:74px;border-radius:12px;padding:5px;background:var(--card);border:1px solid var(--bd);overflow:hidden;text-align:left;display:flex;flex-direction:column;transition:transform .15s}
+      .kz .cell:active{transform:scale(.94)}
+      .kz .cell.m{background:linear-gradient(160deg,var(--sun1),var(--sun2));color:#2a1500;border-color:transparent}
+      .kz .cell.n{background:linear-gradient(160deg,var(--mo1),var(--mo2));color:#fff;border-color:transparent}
+      .kz .cell.o{background:var(--off);color:#1b1f29;border-color:transparent}
+      .kz .cell .d{font-weight:700;font-size:12px}
+      .kz .cell.today .d{background:var(--bad);color:#fff;border-radius:99px;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center}
+      .kz .cell .ic{margin:auto;width:20px;height:20px}.kz .cell .ic svg{width:100%;height:100%;fill:currentColor}
+      .kz .cell .t{margin:auto;font-size:10px;font-weight:700;letter-spacing:.08em}
+      .kz .cell .offlbl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1;pointer-events:none}
+      .kz .cell .offlbl .t{margin:0;font-size:11px;letter-spacing:.08em}
+      .kz .cell .offlbl .st{font-size:11px;font-weight:800;letter-spacing:.05em}
+      .kz .cell .offlbl .ic{margin:0;width:18px;height:18px}
+      .kz .cell .ot{position:absolute;top:4px;right:4px;background:#0d1117;color:var(--ac);font-size:9px;font-weight:700;border-radius:6px;padding:0 4px}
+      .kz .cell .nt{font-size:8px;background:rgba(255,255,255,.92);color:#111;border-radius:4px;padding:0 3px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;text-align:center}
+      .kz .cell .rm{font-size:8px;font-weight:700;opacity:.8;text-align:center}
+      .kz .cell .heat{position:absolute;left:0;bottom:0;height:3px;background:#fff;opacity:.9}
+      .kz .cell .edge{position:absolute;left:5px;bottom:3px;font-size:7px;font-weight:700;opacity:.7}
+      .kz .legend{display:flex;gap:12px;justify-content:center;margin:10px 0;font-size:11px;color:var(--mut);flex-wrap:wrap}
+      .kz .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px}
+      .kz .card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:12px}
+      .kz .row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--bd)}
+      .kz .row:last-child{border:0}.kz .row span{color:var(--mut)}.kz .row b{font-variant-numeric:tabular-nums}.kz .clk{cursor:pointer}
+      .kz .row.big b{font-size:22px;color:var(--ac)}
+      .kz .btn{width:100%;padding:13px;border-radius:14px;background:var(--ac);color:#1a1200;font-weight:700;margin-top:8px}
+      .kz .btn.g{background:var(--c2);color:var(--tx)}.kz .btn.r{background:rgba(251,113,133,.15);color:var(--bad)}
+      .kz .tab{position:fixed;bottom:0;left:0;right:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding:6px 10px calc(6px + env(safe-area-inset-bottom,0px));z-index:40}
+      .kz .tab button{flex:1;padding:8px;border-radius:12px;color:var(--mut);font-size:11px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:2px}
+      .kz .tab button.on{color:var(--ac);background:var(--c2)}
+      .kz .ov{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:60;display:flex;align-items:flex-end;justify-content:center;animation:kzf .2s}
+      .kz .ov.top2{z-index:80;align-items:center}
+      .kz .sheet{background:var(--card);width:100%;max-width:520px;max-height:90vh;border-radius:24px 24px 0 0;display:flex;flex-direction:column;animation:kzu .3s cubic-bezier(.16,1,.3,1);padding-bottom:env(safe-area-inset-bottom,0px)}
+      .kz .ov.top2 .sheet{border-radius:24px;margin:12px;max-height:80vh}
+      .kz .sh{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--bd);font-weight:700}
+      .kz .sb{padding:14px 16px;overflow-y:auto}
+      .kz label{display:block;font-size:11px;color:var(--mut);margin:10px 0 3px}
+      .kz input,.kz select,.kz textarea{width:100%;background:var(--c2);border:1px solid var(--bd);border-radius:10px;padding:9px;outline:none}
+      .kz input:focus,.kz select:focus,.kz textarea:focus{border-color:var(--ac)}
+      .kz .g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.kz .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+      .kz h4{margin:18px 0 4px;font-size:13px;color:var(--ac)}
+      .kz .li{display:grid;grid-template-columns:1fr 84px 34px;gap:6px;margin-top:6px}
+      .kz .sw{display:flex;gap:10px;margin-top:6px}.kz .sw button{width:32px;height:32px;border-radius:99px;border:3px solid transparent}.kz .sw button.on{border-color:var(--tx)}
+      .kz .seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--c2);padding:4px;border-radius:12px;margin-top:6px}
+      .kz .seg button{padding:8px;border-radius:9px;font-size:12px;font-weight:600;color:var(--mut);transition:transform .15s}
+      .kz .seg button:active{transform:scale(.97)}
+      .kz .seg button.on{background:var(--ac);color:#1a1200}
+      .kz .slip{width:100%;border-radius:14px;display:block}
+      .kz .toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:9px 16px;border-radius:99px;font-weight:600;z-index:90;animation:kzf .2s}
+      .kz table{width:100%;border-collapse:collapse;font-size:12px}.kz td,.kz th{padding:7px 4px;border-bottom:1px solid var(--bd);text-align:center}.kz th{color:var(--mut);font-weight:500}.kz td:first-child,.kz th:first-child{text-align:left}
+      @media(prefers-reduced-motion:reduce){.kz *{animation:none!important;transition:none!important}}
+      `;
 
-        <div class="ringkasan-bar">
-          <div class="kotak-stat">
-            <div class="val" id="statKerja">0</div>
-            <div class="lbl">Hari Kerja</div>
-          </div>
-          <div class="kotak-stat">
-            <div class="val" id="statOff">0</div>
-            <div class="lbl">Hari OFF</div>
-          </div>
-          <div class="kotak-stat">
-            <div class="val" id="statOtJam">0.0</div>
-            <div class="lbl">Jumlah Jam OT</div>
-          </div>
-        </div>
+      /* ---------- Pembantu ---------- */
+      const n = v => parseFloat(v) || 0;
+      const cl = o => JSON.parse(JSON.stringify(o));
+      const p2 = v => String(v).padStart(2, '0');
+      const dstr = d => `${d.getFullYear()}-${p2(d.getMonth() + 1)}-${p2(d.getDate())}`;
+      const RM = v => 'RM ' + (v || 0).toLocaleString('ms-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const MON = ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogos', 'Sep', 'Okt', 'Nov', 'Dis'];
+      const LS = (k, v) => { try { if (v === undefined) return JSON.parse(localStorage.getItem(k)); localStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } };
+      const syncWidget = () => { try { if (window.WidgetBridge) window.WidgetBridge.saveData(JSON.stringify({ ms: LS('komez_monthly_settings') || {}, rec: LS('komez_shift_records') || {}, ui: LS('komez_ui') || {} })); } catch (e) {} };
+      const OFFSET = ['OFF', 'REST'];
 
-        <div class="panel-tarikh">
-          <div style="font-size: 0.85rem; font-weight: 700; color: #7dd3fc;" id="tajukTarikhDipilih">
-            Pilih tarikh pada kalendar
-          </div>
-          <div class="grid-3">
-            <div>
-              <label for="kodHariIni">Kod Syif</label>
-              <select id="kodHariIni" onchange="kemasKiniHariDipilih()">
-                <option value="m">m</option>
-                <option value="n">n</option>
-                <option value="m<8">m&lt;8</option>
-                <option value="n<8">n&lt;8</option>
-                <option value="m<12">m&lt;12</option>
-                <option value="n<12">n&lt;12</option>
-                <option value="OFF">OFF</option>
-              </select>
-            </div>
-            <div>
-              <label for="otJamHariIni">Jam OT</label>
-              <input id="otJamHariIni" type="number" step="0.5" min="0" onchange="kemasKiniHariDipilih()" />
-            </div>
-            <div>
-              <label for="gandaHariIni">Gandaan OT</label>
-              <select id="gandaHariIni" onchange="kemasKiniHariDipilih()">
-                <option value="1.5">1.5x</option>
-                <option value="2.0">2.0x</option>
-                <option value="3.0">3.0x</option>
-              </select>
-            </div>
-          </div>
-          <button class="btn btn-biru" style="margin-top: 10px; width: 100%;" onclick="buangOverrideTarikh()">
-            Kembali ke Kitaran Auto untuk Tarikh Ini
-          </button>
-        </div>
-      </div>
-
-      <div class="kad">
-        <h2>Kiraan Anggaran Gaji & OT</h2>
-        <div class="grid-2">
-          <div>
-            <label for="gajiPokok">Gaji Pokok (RM)</label>
-            <input id="gajiPokok" type="number" step="0.01" min="0" onchange="simpanUtama()" />
-          </div>
-          <div>
-            <label for="hariKerjaBulan">Pembahagi Hari Sebulan</label>
-            <input id="hariKerjaBulan" type="number" step="1" min="1" onchange="simpanUtama()" />
-          </div>
-        </div>
-
-        <div class="grid-2">
-          <div>
-            <label for="elaunTambahan">Elaun Tetap / Syif (RM)</label>
-            <input id="elaunTambahan" type="number" step="0.01" min="0" onchange="simpanUtama()" />
-          </div>
-          <div>
-            <label for="potonganLain">Potongan / Pendahuluan (RM)</label>
-            <input id="potonganLain" type="number" step="0.01" min="0" onchange="simpanUtama()" />
-          </div>
-        </div>
-
-        <div class="gaji-box">
-          <div id="pecahanGaji" style="font-size: 0.82rem; color: #cbd5e1;"></div>
-          <div class="gaji-besar" id="jumlahGajiBersih">Anggaran Bersih: RM 0.00</div>
-        </div>
-
-        <div class="baris-aksi">
-          <button class="btn btn-hijau" onclick="eksportJson()">Salin Sandaran JSON</button>
-          <button class="btn btn-merah" onclick="resetSemuaData()">Reset Data</button>
-        </div>
-        <textarea id="kotakSandaran" rows="3" style="display: none; margin-top: 10px; font-size: 0.75rem;" readonly></textarea>
-      </div>
-    </div>
-
-    <script>
-      const CORAK_PETA = {
-        "4m2off": ["m", "m", "m", "m", "OFF", "OFF"],
-        "4n2off": ["n", "n", "n", "n", "OFF", "OFF"],
-        "2m2n2off": ["m", "m", "n", "n", "OFF", "OFF"]
+      const DEF = {
+        shiftName: 'Jadual Syif Q', baseSalary: 3000, customHourlyRate: '', cycleStart: 20, cycleEnd: 19,
+        allowances: { 'M': 0, 'N': 0, 'M<8': 0, 'N<8': 0, 'M<12': 0, 'N<12': 0 }, mealAllowance: 0,
+        customAllowances: [{ id: 1, name: 'Elaun Kedatangan', amount: '' }, { id: 2, name: 'Elaun Eksekutif', amount: '' }],
+        deductions: [{ id: 1, name: 'KWSP', amount: '' }, { id: 2, name: 'PERKESO', amount: '' }],
+        dayTypes: [
+          { id: 1, name: 'Biasa', isTiered: false, rate: 1.5 }, { id: 2, name: 'Offday', isTiered: false, rate: 1.5 },
+          { id: 3, name: 'Sod', isTiered: false, rate: 1.5 }, { id: 4, name: 'Restday', isTiered: false, rate: 2 },
+          { id: 5, name: 'CRD', isTiered: false, rate: 2 }, { id: 6, name: 'PH', isTiered: true, tier1Hours: 8, tier1Rate: 2, tier2Rate: 3 },
+        ],
       };
+      const SHIFTS = ['M', 'N', 'M<8', 'N<8', 'M<12', 'N<12'];
 
-      const OT_LALAI = {
-        "m": { jam: 3.0, ganda: 1.5 },
-        "n": { jam: 3.0, ganda: 1.5 },
-        "m<8": { jam: 1.5, ganda: 1.5 },
-        "n<8": { jam: 1.5, ganda: 1.5 },
-        "m<12": { jam: 4.0, ganda: 2.0 },
-        "n<12": { jam: 4.0, ganda: 2.0 },
-        "OFF": { jam: 0.0, ganda: 1.5 }
+      const Ico = ({ d }) => <svg viewBox="0 0 24 24" dangerouslySetInnerHTML={{ __html: d }} />;
+      const P = {
+        l: '<path d="M15 18l-6-6 6-6"/>', r: '<path d="M9 18l6-6-6-6"/>', x: '<path d="M18 6L6 18M6 6l12 12"/>',
+        wand: '<path d="M15 4V2M15 16v-2M8 9h2M20 9h2M17.8 11.8L19 13M17.8 6.2L19 5M3 21l9-9M12.2 6.2L11 5"/>',
+        cal: '<rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+        cash: '<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>',
+        rm: '<path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
+        trash: '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>',
+        set: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/>',
+        eye: '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>',
+        eyeOff: '<path d="M17.94 17.94A10.94 10.94 0 0 1 12 20C5 20 1 12 1 12a21.8 21.8 0 0 1 5.06-6.06M9.9 4.24A10.54 10.54 0 0 1 12 4c7 0 11 8 11 8a21.8 21.8 0 0 1-2.16 3.19"/><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/>',
       };
+      const SunI = () => <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><g stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 1v3M12 20v3M1 12h3M20 12h3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" /></g></svg>;
+      const MoonI = () => <svg viewBox="0 0 24 24"><path d="M21 13.5A9 9 0 1 1 10.5 3a7 7 0 0 0 10.5 10.5z" /></svg>;
 
-      const NAMA_BULAN = ["Jan", "Feb", "Mac", "Apr", "Mei", "Jun", "Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"];
+      /* ---------- Logik kiraan ---------- */
+      const cfgFor = (ms, am) => {
+        if (ms[am]) return ms[am];
+        const p = Object.keys(ms).filter(m => m < am).sort();
+        return cl(p.length ? ms[p[p.length - 1]] : DEF);
+      };
+      const cycFor = (s, am) => {
+        const [y, m] = am.split('-').map(Number), a = n(s.cycleStart) || 1, b = n(s.cycleEnd) || 31;
+        const st = a > b ? new Date(y, m - 2, a) : new Date(y, m - 1, a), en = new Date(y, m - 1, b), o = [];
+        for (let c = new Date(st); c <= en && o.length < 40; c.setDate(c.getDate() + 1)) o.push({ dt: new Date(c), s: dstr(c) });
+        return o;
+      };
+      const baseRate = s => { const b = n(s.baseSalary), c = n(s.customHourlyRate); return b >= 4000 && c > 0 ? c : b / 26 / 8; };
+      const otParts = (r, s, br) => {
+        const h = n(r.ot); if (h <= 0) return [];
+        const dt = s.dayTypes.find(d => d.name.toUpperCase() === (r.dayType || 'Biasa').toUpperCase()) || { rate: 1.5 };
+        if (dt.isTiered) {
+          const L = n(dt.tier1Hours) || 8, r1 = n(dt.tier1Rate) || 2, r2 = n(dt.tier2Rate) || 3, a = Math.min(h, L), b = Math.max(0, h - L);
+          return [a > 0 && [r1, a, a * br * r1], b > 0 && [r2, b, b * br * r2]].filter(Boolean);
+        }
+        const x = n(dt.rate) || 1.5; return [[x, h, h * br * x]];
+      };
+      const shAl = (r, s) => {
+        const k = (r.shift || '').toUpperCase(); if (!k || OFFSET.includes(k)) return 0;
+        return n(s.allowances[k]) + (k[0] === 'N' ? n(s.mealAllowance) : 0);
+      };
+      const dayEarn = (r, s, br) => shAl(r, s) + otParts(r, s, br).reduce((t, x) => t + x[2], 0);
 
-      let negeri = JSON.parse(localStorage.getItem("jadual_syif_q_penuh_v1") || "null");
-      if (!negeri) {
-        negeri = {
-          tarikhMula: "2026-11-20",
-          corakKitaran: "4m2off",
-          gajiPokok: 2500,
-          hariKerjaBulan: 26,
-          elaunTambahan: 0,
-          potonganLain: 0,
-          overrides: {}
+      function summarize(s, c, rec) {
+        const br = baseRate(s); let ot = 0, oh = 0, al = 0, mn = 0; const bd = {}, sc = {};
+        c.forEach(d => {
+          const r = rec[d.s] || {};
+          otParts(r, s, br).forEach(x => { ot += x[2]; oh += x[1]; const k = x[0].toFixed(1); bd[k] = bd[k] || { h: 0, a: 0 }; bd[k].h += x[1]; bd[k].a += x[2]; });
+          al += shAl(r, s);
+          const u = (r.shift || '').toUpperCase();
+          if (u && !OFFSET.includes(u)) { sc[u] = (sc[u] || 0) + 1; if (u[0] === 'N') mn++; }
+        });
+        const ex = s.customAllowances.reduce((t, a) => t + n(a.amount), 0); al += ex;
+        const gross = n(s.baseSalary) + ot + al, ded = s.deductions.reduce((t, d) => t + n(d.amount), 0);
+        const td = dstr(new Date()), idx = c.findIndex(d => d.s === td);
+        const prog = idx < 0 ? (td > c[c.length - 1].s ? 1 : 0) : (idx + 1) / c.length;
+        return { bd, sc, mn, br, ot, oh, al, ex, gross, ded, net: gross - ded, prog, idx, len: c.length, left: idx < 0 ? (prog === 1 ? 0 : c.length) : c.length - 1 - idx };
+      }
+
+      function makeSlip(S, s, c, acc) {
+        const W = 720, H = 470, cv = document.createElement('canvas'); cv.width = W; cv.height = H; const x = cv.getContext('2d');
+        const g = x.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#141a26'); g.addColorStop(1, '#0d1117'); x.fillStyle = g; x.fillRect(0, 0, W, H);
+        const ff = '"Bricolage Grotesque",system-ui,sans-serif'; x.fillStyle = acc; x.fillRect(0, 0, W, 10);
+        x.fillStyle = '#eef1f6'; x.font = '800 34px ' + ff; x.fillText(s.shiftName || 'Jadual Syif Q', 44, 74);
+        const a = c[0].dt, b = c[c.length - 1].dt;
+        x.fillStyle = '#8a94a6'; x.font = '500 22px ' + ff; x.fillText(`Kitaran ${a.getDate()} ${MON[a.getMonth()]} – ${b.getDate()} ${MON[b.getMonth()]} ${b.getFullYear()}`, 44, 110);
+        [['Gaji asas', RM(n(s.baseSalary))], ['Elaun', RM(S.al)], [`OT (${S.oh} jam)`, RM(S.ot)], ['Gaji kasar', RM(S.gross)], ['Potongan', '− ' + RM(S.ded)]].forEach((r, i) => {
+          const y = 170 + i * 48; x.fillStyle = '#8a94a6'; x.font = '500 24px ' + ff; x.textAlign = 'left'; x.fillText(r[0], 44, y);
+          x.fillStyle = i === 4 ? '#fb7185' : '#eef1f6'; x.font = '700 24px ' + ff; x.textAlign = 'right'; x.fillText(r[1], W - 44, y);
+          x.fillStyle = '#273040'; x.fillRect(44, y + 16, W - 88, 1);
+        });
+        x.textAlign = 'left'; x.fillStyle = '#8a94a6'; x.font = '500 22px ' + ff; x.fillText('Gaji bersih', 44, 430);
+        x.fillStyle = acc; x.font = '800 44px ' + ff; x.textAlign = 'right'; x.fillText(RM(S.net), W - 44, 438);
+        return cv;
+      }
+
+      /* ---------- Komponen kecil ---------- */
+      function CountUp({ value }) {
+        const [v, setV] = useState(0), from = useRef(0);
+        useEffect(() => {
+          const f = from.current, t0 = performance.now(); let raf;
+          const step = x => { const k = Math.min(1, (x - t0) / 800), e = 1 - Math.pow(1 - k, 3); setV(f + (value - f) * e); if (k < 1) raf = requestAnimationFrame(step); else from.current = value; };
+          raf = requestAnimationFrame(step); return () => cancelAnimationFrame(raf);
+        }, [value]);
+        return <>{RM(v)}</>;
+      }
+      const Sheet = ({ title, onClose, children, top }) => (
+        <div className={'ov' + (top ? ' top2' : '')} onClick={e => e.target === e.currentTarget && onClose()}>
+          <div className="sheet"><div className="sh"><span>{title}</span><button className="ib" aria-label="Tutup" onClick={onClose}><Ico d={P.x} /></button></div><div className="sb">{children}</div></div>
+        </div>
+      );
+      const Num = ({ label, ...p }) => <div>{label && <label>{label}</label>}<input type="number" inputMode="decimal" {...p} /></div>;
+
+      /* ---------- App ---------- */
+      function App() {
+        const now = new Date();
+        const [ms, setMs] = useState(() => LS('komez_monthly_settings') || {});
+        const [rec, setRec] = useState(() => LS('komez_shift_records') || {});
+        const [ui, setUi] = useState(() => {
+          const u = LS('komez_ui') || {};
+          return {
+            acc: typeof u.acc === 'string' ? u.acc : '#f5b73b',
+            earn: u.earn !== false,
+            showNet: u.showNet !== false,
+            netEnabled: u.netEnabled !== false,
+            calendarMode: u.calendarMode === 'month' ? 'month' : 'cycle',
+            shiftDisplay: u.shiftDisplay === 'text' ? 'text' : 'icon',
+            showOt: u.showOt !== false,
+            showUpcomingNotes: u.showUpcomingNotes !== false,
+            noteReminderDays: Number.isFinite(+u.noteReminderDays) ? Math.max(0, Math.min(30, parseInt(u.noteReminderDays, 10))) : 3,
+          };
+        });
+        const [am, setAm] = useState(`${now.getFullYear()}-${p2(now.getMonth() + 1)}`);
+        const [view, setView] = useState('cal');
+        const [modal, setModal] = useState(null);
+        const [sub, setSub] = useState(null);
+        const [dm, setDm] = useState(null);
+        const [slip, setSlip] = useState('');
+        const [toastMsg, setToastMsg] = useState('');
+        const [dir, setDir] = useState(0);
+        const [dragX, setDragX] = useState(0);
+        const [unOpen, setUnOpen] = useState(true);
+        const [lastBackup, setLastBackup] = useState(() => LS('komez_last_backup') || '');
+        const sx = useRef(null), sy = useRef(null), fileRef = useRef(null);
+        const BK = 'komez_backup_slot';
+        const [pat, setPat] = useState({ start: dstr(now), end: dstr(new Date(now.getFullYear(), now.getMonth() + 1, 0)), pattern: 'M, M, M, M, OFF, REST, N, N, N, N, OFF, REST' });
+
+        useEffect(() => { LS('komez_monthly_settings', ms); }, [ms]);
+        useEffect(() => { LS('komez_shift_records', rec); }, [rec]);
+        useEffect(() => { LS('komez_ui', ui); }, [ui]);
+        useEffect(() => { syncWidget(); }, [ms, rec, ui]);
+        useEffect(() => { const t1 = setTimeout(syncWidget, 1200); const t2 = setTimeout(syncWidget, 3000); const onVis = () => { if (!document.hidden) syncWidget(); }; document.addEventListener('visibilitychange', onVis); window.addEventListener('focus', syncWidget); return () => { clearTimeout(t1); clearTimeout(t2); document.removeEventListener('visibilitychange', onVis); window.removeEventListener('focus', syncWidget); }; }, []);
+
+        useEffect(() => {
+          const today = new Date();
+          const findAm = () => {
+            for (let d = -1; d <= 2; d++) {
+              const dt = new Date(today.getFullYear(), today.getMonth() + d, 1);
+              const u = `${dt.getFullYear()}-${p2(dt.getMonth() + 1)}`;
+              const ss = cfgFor(ms, u);
+              const a = n(ss.cycleStart) || 1, b = n(ss.cycleEnd) || 31;
+              const [ys, mo] = u.split('-').map(Number);
+              const ws = a > b ? new Date(ys, mo - 2, a) : new Date(ys, mo - 1, a);
+              const we = new Date(ys, mo - 1, b, 23, 59, 59);
+              if (today >= ws && today <= we) return u;
+            }
+            return `${today.getFullYear()}-${p2(today.getMonth() + 1)}`;
+          };
+          const target = findAm();
+          if (target !== am) setAm(target);
+          let tries = 0;
+          const iv = setInterval(() => {
+            tries += 1;
+            const el = document.querySelector('.kz .cell.today');
+            if (el) { el.scrollIntoView({ block: 'center', behavior: 'smooth' }); clearInterval(iv); }
+            else if (tries > 20) clearInterval(iv);
+          }, 150);
+          return () => clearInterval(iv);
+        }, []);
+
+        const s = useMemo(() => cfgFor(ms, am), [ms, am]);
+        const cyc = useMemo(() => cycFor(s, am), [s, am]);
+        const G = useMemo(() => {
+          if (ui.calendarMode !== 'month') return cyc;
+          const [y, m] = am.split('-').map(Number);
+          const last = new Date(y, m, 0);
+          const out = [];
+          for (let d = new Date(y, m - 1, 1); d <= last; d.setDate(d.getDate() + 1)) out.push({ dt: new Date(d), s: dstr(d) });
+          return out;
+        }, [am, ui.calendarMode, cyc]);
+        const S = useMemo(() => summarize(s, cyc, rec), [s, cyc, rec]);
+        const upcomingNotes = useMemo(() => {
+          const today = new Date();
+          const start = dstr(today);
+          const lim = Math.max(0, Math.min(30, parseInt(ui.noteReminderDays, 10) || 0));
+          const endD = new Date(today.getFullYear(), today.getMonth(), today.getDate() + lim);
+          const end = dstr(endD);
+          const out = [];
+          Object.entries(rec || {}).forEach(([k, v]) => {
+            const note = (v && v.note || '').trim();
+            if (!note) return;
+            if (k >= start && k <= end) {
+              const d0 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+              const d1 = new Date(k + 'T00:00:00');
+              const diff = Math.round((d1 - d0) / 86400000);
+              out.push({ d: k, note, diff });
+            }
+          });
+          out.sort((a, b) => a.d.localeCompare(b.d));
+          return out;
+        }, [rec, ui.noteReminderDays]);
+        const mod = fn => setMs(p => { const c = cl(cfgFor(p, am)); fn(c); return { ...p, [am]: c }; });
+        const toast = t => { setToastMsg(t); setTimeout(() => setToastMsg(''), 1800); };
+        const buzz = () => { try { navigator.vibrate && navigator.vibrate(18); } catch (e) {} };
+        const ask = (m, fn, ok = 'Ya, padam', okCls = 'btn r') => setSub({ t: 'cf', m, fn, ok, okCls });
+        const shiftMonth = o => {
+          setDir(o);
+          setTimeout(() => setDir(0), 350);
+          const [y, m] = am.split('-').map(Number), d = new Date(y, m - 1 + o, 1);
+          setAm(`${d.getFullYear()}-${p2(d.getMonth() + 1)}`);
         };
-      }
 
-      let rujukanBulan = new Date();
-      if (rujukanBulan.getDate() >= 20) {
-        rujukanBulan = new Date(rujukanBulan.getFullYear(), rujukanBulan.getMonth() + 1, 1);
-      }
-
-      let tarikhDipilihISO = formatISO(new Date());
-
-      function formatISO(d) {
-        const y = d.getFullYear();
-        const m = String(d.getMonth() + 1).padStart(2, "0");
-        const day = String(d.getDate()).padStart(2, "0");
-        return `${y}-${m}-${day}`;
-      }
-
-      function simpanNegeri() {
-        localStorage.setItem("jadual_syif_q_penuh_v1", JSON.stringify(negeri));
-      }
-
-      function muatInput() {
-        document.getElementById("tarikhMula").value = negeri.tarikhMula;
-        document.getElementById("corakKitaran").value = negeri.corakKitaran;
-        document.getElementById("gajiPokok").value = negeri.gajiPokok;
-        document.getElementById("hariKerjaBulan").value = negeri.hariKerjaBulan;
-        document.getElementById("elaunTambahan").value = negeri.elaunTambahan;
-        document.getElementById("potonganLain").value = negeri.potonganLain;
-      }
-
-      function simpanUtama() {
-        negeri.tarikhMula = document.getElementById("tarikhMula").value || "2026-11-20";
-        negeri.corakKitaran = document.getElementById("corakKitaran").value;
-        negeri.gajiPokok = parseFloat(document.getElementById("gajiPokok").value) || 0;
-        negeri.hariKerjaBulan = parseFloat(document.getElementById("hariKerjaBulan").value) || 26;
-        negeri.elaunTambahan = parseFloat(document.getElementById("elaunTambahan").value) || 0;
-        negeri.potonganLain = parseFloat(document.getElementById("potonganLain").value) || 0;
-        simpanNegeri();
-        paparSemua();
-      }
-
-      function an需求Bulan(delta) {
-        rujukanBulan = new Date(rujukanBulan.getFullYear(), rujukanBulan.getMonth() + delta, 1);
-        paparSemua();
-      }
-
-      function dapatMaklumatHari(tarikhObj) {
-        const iso = formatISO(tarikhObj);
-        if (negeri.overrides[iso]) {
-          return { iso, ...negeri.overrides[iso], manual: true };
-        }
-        const mula = new Date(negeri.tarikhMula + "T00:00:00");
-        const bezaHari = Math.floor((tarikhObj - mula) / (1000 * 60 * 60 * 24));
-        const corak = CORAK_PETA[negeri.corakKitaran] || CORAK_PETA["4m2off"];
-        const indeks = ((bezaHari % 6) + 6) % 6;
-        const kod = corak[indeks];
-        const lalai = OT_LALAI[kod] || { jam: 0, ganda: 1.5 };
-        return { iso, kod, jam: lalai.jam, ganda: lalai.ganda, manual: false };
-      }
-
-      function pilihTarikh(iso) {
-        tarikhDipilihISO = iso;
-        const info = negeri.overrides[iso] || dapatMaklumatHari(new Date(iso + "T00:00:00"));
-        document.getElementById("tajukTarikhDipilih").textContent =
-          `Tarikh: ${iso} ${info.manual ? "(Diubah Manual)" : "(Kitaran Auto)"}`;
-        document.getElementById("kodHariIni").value = info.kod;
-        document.getElementById("otJamHariIni").value = info.jam;
-        document.getElementById("gandaHariIni").value = String(info.ganda);
-        paparSemua();
-      }
-
-      function kemasKiniHariDipilih() {
-        const kod = document.getElementById("kodHariIni").value;
-        const jam = parseFloat(document.getElementById("otJamHariIni").value) || 0;
-        const ganda = parseFloat(document.getElementById("gandaHariIni").value) || 1.5;
-        negeri.overrides[tarikhDipilihISO] = { kod, jam, ganda };
-        simpanNegeri();
-        pilihTarikh(tarikhDipilihISO);
-      }
-
-      function buangOverrideTarikh() {
-        delete negeri.overrides[tarikhDipilihISO];
-        simpanNegeri();
-        pilihTarikh(tarikhDipilihISO);
-      }
-
-      function kelasTag(kod) {
-        if (kod === "OFF") return "k-off";
-        if (kod === "m") return "k-m";
-        if (kod === "n") return "k-n";
-        return "k-ot";
-      }
-
-      function paparSemua() {
-        const tahun = rujukanBulan.getFullYear();
-        const bulan = rujukanBulan.getMonth();
-        const mulaTempoh = new Date(tahun, bulan - 1, 20);
-        const tamatTempoh = new Date(tahun, bulan, 19);
-
-        document.getElementById("labelTempoh").textContent =
-          `20 ${NAMA_BULAN[mulaTempoh.getMonth()]} ${mulaTempoh.getFullYear()} – 19 ${NAMA_BULAN[tamatTempoh.getMonth()]} ${tamatTempoh.getFullYear()}`;
-
-        const grid = document.getElementById("gridKalendar");
-        grid.innerHTML = "";
-
-        const kosongAwal = mulaTempoh.getDay();
-        for (let i = 0; i < kosongAwal; i++) {
-          grid.innerHTML += `<div></div>`;
-        }
-
-        const hariIniISO = formatISO(new Date());
-        let hariKerja = 0;
-        let hariOff = 0;
-        let jumlahJamOt = 0;
-        let bayaranOt = 0;
-
-        const kadarSejamAsas = (negeri.gajiPokok / (negeri.hariKerjaBulan || 26)) / 8;
-
-        for (let d = new Date(mulaTempoh); d <= tamatTempoh; d.setDate(d.getDate() + 1)) {
-          const salinan = new Date(d);
-          const info = dapatMaklumatHari(salinan);
-
-          if (info.kod === "OFF") {
-            hariOff++;
-          } else {
-            hariKerja++;
+        const openDay = k => { setDm({ k, d: cl(rec[k] || { shift: '', dayType: s.dayTypes[0] ? s.dayTypes[0].name : 'Biasa', ot: '', note: '' }) }); setModal('day'); };
+        const dmChange = (f, v) => setDm(p => {
+          const d = { ...p.d, [f]: v };
+          if (f === 'shift') {
+            const u = v.toUpperCase();
+            if ((u[0] === 'M' || u[0] === 'N') && !p.d.ot) d.ot = '3'; else if (!v || OFFSET.includes(u)) d.ot = '';
           }
-          jumlahJamOt += info.jam;
-          bayaranOt += info.jam * kadarSejamAsas * info.ganda;
+          if (f === 'dayType') {
+            const ex = ['OFFDAY', 'RESTDAY', 'BIASA'];
+            if (!ex.includes(v.toUpperCase())) d.note = v; else if (ex.includes((p.d.dayType || '').toUpperCase())) d.note = '';
+          }
+          return { ...p, d };
+        });
+        const saveDay = () => { setRec(r => ({ ...r, [dm.k]: dm.d })); setModal(null); buzz(); toast('Disimpan'); };
+        const delDay = () => ask('Pasti mahu padam rekod hari ini?', () => { setRec(r => { const x = { ...r }; delete x[dm.k]; return x; }); setModal(null); toast('Rekod dipadam'); });
+        const copyPrev = () => { const [y, m, d] = dm.k.split('-').map(Number), pr = rec[dstr(new Date(y, m - 1, d - 1))]; if (!pr) return toast('Tiada rekod semalam'); setDm(p => ({ ...p, d: cl(pr) })); };
 
-          const sel = document.createElement("div");
-          sel.className = "sel";
-          if (info.iso === hariIniISO) sel.classList.add("hari-ini");
-          if (info.iso === tarikhDipilihISO) sel.classList.add("dipilih");
+        const genPat = () => {
+          const sh = pat.pattern.split(',').map(z => z.trim().toUpperCase()).filter(Boolean);
+          if (!sh.length || !pat.start || !pat.end) return toast('Isi semua ruangan');
+          const f = (nm, d) => (s.dayTypes.find(z => z.name.toUpperCase() === nm) || { name: d }).name;
+          const [a, b, c] = pat.start.split('-').map(Number), [x, y, z] = pat.end.split('-').map(Number), lim = new Date(x, y - 1, z);
+          const nr = { ...rec }; let i = 0, cnt = 0;
+          for (let d = new Date(a, b - 1, c); d <= lim; d.setDate(d.getDate() + 1), i++) {
+            const k = dstr(d), t = sh[i % sh.length]; let ns = t, dt = f('BIASA', 'Biasa'), ot = '';
+            if (t === 'OFF') { dt = f('OFFDAY', 'Offday'); ns = ''; } else if (t === 'REST') { dt = f('RESTDAY', 'Restday'); ns = ''; } else if (t[0] === 'M' || t[0] === 'N') ot = '3';
+            const o = nr[k]; nr[k] = { shift: ns, dayType: dt, ot: o && o.shift === ns && o.ot ? o.ot : ot, note: o ? o.note || '' : '' }; cnt++;
+          }
+          setRec(nr); setModal(null); buzz(); toast(`${cnt} hari dijana`);
+        };
 
-          sel.innerHTML = `
-            <div class="no-hari">${salinan.getDate()}</div>
-            <div class="tag-kod ${kelasTag(info.kod)}">${info.kod}${info.manual ? "*" : ""}</div>
-          `;
-          sel.onclick = () => pilihTarikh(info.iso);
-          grid.appendChild(sel);
-        }
+        const openSlip = () => { setSlip(makeSlip(S, s, cyc, ui.acc).toDataURL('image/png')); setModal('slip'); };
+        const shareSlip = () => makeSlip(S, s, cyc, ui.acc).toBlob(async bl => {
+          try { const f = new File([bl], 'slip-gaji.png', { type: 'image/png' }); if (navigator.canShare && navigator.canShare({ files: [f] })) await navigator.share({ files: [f], title: 'Slip gaji' }); else toast('Tekan lama imej untuk simpan'); } catch (e) {}
+        });
 
-        document.getElementById("statKerja").textContent = String(hariKerja);
-        document.getElementById("statOff").textContent = String(hariOff);
-        document.getElementById("statOtJam").textContent = jumlahJamOt.toFixed(1);
+        useEffect(() => { LS('komez_last_backup', lastBackup); }, [lastBackup]);
+        const backupObj = () => ({ version: '1.3', timestamp: new Date().toISOString(), monthlySettings: ms, records: rec });
+        const applyBackup = d => {
+          if (d && d.monthlySettings && d.records) { setMs(d.monthlySettings); setRec(d.records); setModal(null); toast('Data dipanggil semula'); return true; }
+          return false;
+        };
+        const saveSlot = () => {
+          const ts = new Date().toISOString();
+          try { localStorage.setItem(BK, JSON.stringify({ ...backupObj(), timestamp: ts })); } catch (e) {}
+          setLastBackup(ts);
+          setModal(null);
+          toast('Data disimpan dalam peranti');
+        };
+        const restoreSlot = () => {
+          let raw = null;
+          try { raw = localStorage.getItem(BK); } catch (e) {}
+          if (!raw) { toast('Belum ada data disimpan'); return; }
+          let d = null;
+          try { d = JSON.parse(raw); } catch (e) {}
+          if (!d) { toast('Data simpanan tidak sah'); return; }
+          const when = d.timestamp ? new Date(d.timestamp).toLocaleString('ms-MY', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+          ask(`Ganti semua data semasa dengan data yang disimpan${when ? ' pada ' + when : ''}?`, () => { if (!applyBackup(d)) toast('Data simpanan tidak sah'); }, 'Ya, pulih', 'btn');
+        };
+        const exportFile = async () => {
+          const nw = new Date(), nm = `CalendarSalary_${p2(nw.getDate())}-${p2(nw.getMonth() + 1)}-${nw.getFullYear()}_${p2(nw.getHours())}-${p2(nw.getMinutes())}.json`;
+          const j = JSON.stringify(backupObj(), null, 2), bl = new Blob([j], { type: 'application/json' });
+          if (window.showSaveFilePicker) {
+            try { const h = await window.showSaveFilePicker({ suggestedName: nm, types: [{ description: 'JSON File', accept: { 'application/json': ['.json'] } }] }); const w = await h.createWritable(); await w.write(bl); await w.close(); return; } catch (er) { if (er.name === 'AbortError') return; }
+          }
+          const url = URL.createObjectURL(bl), a = document.createElement('a'); a.href = url; a.download = nm; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+        };
+        const importFile = e => {
+          const f = e.target.files[0]; if (!f) return; const r = new FileReader();
+          r.onload = ev => {
+            try { const d = JSON.parse(ev.target.result); if (!applyBackup(d)) toast('Fail tidak sah'); } catch (er) { toast('Ralat membaca fail .json'); }
+            if (fileRef.current) fileRef.current.value = '';
+          };
+          r.readAsText(f);
+        };
 
-        const gajiBersih = negeri.gajiPokok + bayaranOt + negeri.elaunTambahan - negeri.potonganLain;
-        document.getElementById("pecahanGaji").textContent =
-          `Pokok: RM ${negeri.gajiPokok.toFixed(2)} • OT: RM ${bayaranOt.toFixed(2)} • Elaun: +RM ${negeri.elaunTambahan.toFixed(2)} • Potongan: -RM ${negeri.potonganLain.toFixed(2)}`;
-        document.getElementById("jumlahGajiBersih").textContent =
-          `Anggaran Bersih: RM ${gajiBersih.toFixed(2)}`;
+        const getX = e => (e.touches ? e.touches[0].clientX : e.clientX);
+        const getY = e => (e.touches ? e.touches[0].clientY : e.clientY);
+        const onTS = e => {
+          const x = getX(e), y = getY(e);
+          sx.current = x; sy.current = y;
+          setDragX(0);
+          const g = document.querySelector('.kz .grid');
+          if (g) g.style.transition = 'none';
+        };
+        const onTM = e => {
+          if (sx.current == null) return;
+          const x = getX(e), y = getY(e);
+          const dx = x - sx.current, dy = Math.abs(y - (sy.current ?? y));
+          if (dy > Math.abs(dx) && dy > 8) { sx.current = null; sy.current = null; setDragX(0); const g = document.querySelector('.kz .grid'); if (g) { g.style.transition = ''; g.style.transform = ''; } return; }
+          setDragX(dx);
+        };
+        const onTE = () => {
+          const d = dragX;
+          sx.current = null; sy.current = null; setDragX(0);
+          const g = document.querySelector('.kz .grid');
+          if (g) { g.style.transition = ''; g.style.transform = ''; }
+          if (Math.abs(d) > 60) shiftMonth(d < 0 ? 1 : -1);
+        };
+
+        const a = cyc[0].dt, b = cyc[cyc.length - 1].dt;
+        const label = `${a.getDate()} ${MON[a.getMonth()]} – ${b.getDate()} ${MON[b.getMonth()]} ${b.getFullYear()}`;
+        const td = dstr(new Date()), C = 2 * Math.PI * 36;
+        const Nav = (
+          <div className="nav">
+            <button className="ib" aria-label="Bulan lepas" onClick={() => shiftMonth(-1)}><Ico d={P.l} /></button>
+            <h2>{MON[+am.slice(5) - 1]} {am.slice(0, 4)}<small>Kitaran {label}</small></h2>
+            <button className="ib" aria-label="Bulan depan" onClick={() => shiftMonth(1)}><Ico d={P.r} /></button>
+          </div>
+        );
+        const setF = (f, v) => mod(c => { c[f] = v; });
+        const dtUpd = (id, f, v) => mod(c => { const o = c.dayTypes.find(z => z.id === id); if (o) o[f] = v; });
+        const lstUpd = (key, id, f, v) => mod(c => { const o = c[key].find(z => z.id === id); if (o) o[f] = v; });
+        const lstDel = (key, id, m) => ask(m, () => mod(c => { c[key] = c[key].filter(z => z.id !== id); }));
+
+        return (
+          <div className="kz auto" style={{ '--ac': ui.acc }}>
+            <style dangerouslySetInnerHTML={{ __html: CSS }} />
+            <div className="top">
+              <div><h1>Calendar $alary</h1><small>Made by KoMeZ</small></div>
+              <div>
+                {view === 'cal' && <>
+                  <button className={'ib' + (ui.earn ? ' on' : '')} aria-label="Papar RM harian" onClick={() => setUi({ ...ui, earn: !ui.earn })}><Ico d={P.rm} /></button>
+                  <button className="ib" aria-label="Jana corak" onClick={() => setModal('pat')}><Ico d={P.wand} /></button>
+                </>}
+                <button className="ib" aria-label="Tetapan" onClick={() => setModal('set')}><Ico d={P.set} /></button>
+              </div>
+            </div>
+
+            <main>
+              {view === 'cal' ? <>
+                {ui.netEnabled !== false && (ui.showNet ? (
+                  <div className="hero">
+                    <button className="hero-toggle" title="Sembunyikan anggaran gaji" aria-label="Sembunyikan anggaran gaji" onClick={() => setUi({ ...ui, showNet: false })}><Ico d={P.eyeOff} /></button>
+                    <div className="hero-top">
+                      <div className="ring">
+                        <svg viewBox="0 0 86 86"><circle cx="43" cy="43" r="36" fill="none" stroke="var(--bd)" strokeWidth="8" /><circle cx="43" cy="43" r="36" fill="none" stroke="var(--ac)" strokeWidth="8" strokeLinecap="round" strokeDasharray={C} strokeDashoffset={C * (1 - S.prog)} style={{ transition: 'stroke-dashoffset 1s cubic-bezier(.16,1,.3,1)' }} /></svg>
+                        <b>{S.idx < 0 ? S.len : S.idx + 1}<span>/ {S.len} hari</span></b>
+                      </div>
+                      <div><div className="l">Anggaran gaji bersih</div><div className="net"><CountUp value={S.net} /></div><div className="sub"><i>{S.left}</i> hari lagi tamat kitaran gaji · OT {S.oh}j</div></div>
+                    </div>
+                    <div className="hero-foot">
+                      <div className="hero-legend">
+                        <span><i style={{ background: 'linear-gradient(160deg,var(--sun1),var(--sun2))' }} />Pagi</span>
+                        <span><i style={{ background: 'linear-gradient(160deg,var(--mo1),var(--mo2))' }} />Malam</span>
+                        <span><i style={{ background: 'var(--off)' }} />Off/Rest</span>
+                        {ui.showOt && <span><i className="ot-key" />OT</span>}
+                      </div>
+                      <div className="hero-actions">
+                        <button className={`ot-toggle ${ui.showOt ? 'on' : ''}`} title={ui.showOt ? 'Sembunyikan OT' : 'Tunjuk OT'} onClick={() => setUi({ ...ui, showOt: !ui.showOt })}><Ico d={ui.showOt ? P.eyeOff : P.eye} /><span>{ui.showOt ? 'Sembunyi OT' : 'Tunjuk OT'}</span></button>
+                        <button className={`ot-toggle ${ui.earn ? 'on' : ''}`} title={ui.earn ? 'Sembunyikan RM harian' : 'Tunjuk RM harian'} onClick={() => setUi({ ...ui, earn: !ui.earn })}><Ico d={ui.earn ? P.eyeOff : P.eye} /><span>{ui.earn ? 'Sembunyi RM' : 'Tunjuk RM'}</span></button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <button className="net-show" onClick={() => setUi({ ...ui, showNet: true })}><Ico d={P.eye} /> Tunjuk anggaran gaji bersih</button>
+                ))}
+                <div className="hero-title"><h1>{s.shiftName || 'Jadual Syif Q'}</h1></div>
+                {Nav}
+                {ui.showUpcomingNotes !== false && upcomingNotes.length > 0 && (
+                  <div className="card" style={{ margin: '10px 0', padding: '10px 12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: unOpen ? 6 : 0 }}>
+                      <div style={{ fontWeight: 700, fontSize: 12, color: 'var(--ac)' }}>{`Nota akan datang (${upcomingNotes.length})`}</div>
+                      <button className="ib" style={{ margin: 0, width: 34, height: 28 }} aria-label={unOpen ? 'Sembunyi nota' : 'Tunjuk nota'} onClick={() => setUnOpen(v => !v)}>
+                        <Ico d={unOpen ? P.eyeOff : P.eye} />
+                      </button>
+                    </div>
+                    {unOpen && upcomingNotes.map(item => (
+                      <button key={item.d} style={{ display: 'flex', gap: 8, width: '100%', textAlign: 'left', background: 'transparent', border: 0, padding: '6px 0', color: 'var(--tx)', cursor: 'pointer' }} onClick={() => openDay(item.d)}>
+                        <span style={{ fontSize: 11, color: 'var(--mut)', minWidth: 74 }}>{item.d}</span>
+                        <span style={{ fontSize: 12, flex: 1 }}>{item.note}</span>
+                        <span style={{ fontSize: 11, color: 'var(--mut)' }}>{item.diff === 0 ? 'Hari ini' : `${item.diff} hari`}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+                <div className="dow">{['Ahd', 'Isn', 'Sel', 'Rab', 'Kha', 'Jum', 'Sab'].map(x => <div key={x}>{x}</div>)}</div>
+                <div key={am} className={'grid ' + (dir > 0 ? 'sr' : dir < 0 ? 'sl' : '')} style={dragX ? { transform: `translateX(${dragX}px)` } : undefined} onTouchStart={onTS} onTouchMove={onTM} onTouchEnd={onTE} onMouseDown={onTS} onMouseMove={onTM} onMouseUp={onTE} onMouseLeave={onTE}>
+                  {Array.from({ length: G[0].dt.getDay() }, (_, i) => <div key={'b' + i} />)}
+                  {G.map(d => {
+                    const r = rec[d.s] || {};
+                    const dt = (r.dayType || 'Biasa').toUpperCase();
+                    const sh = (r.shift || '').toUpperCase();
+                    const off = dt.includes('OFF') || dt.includes('REST');
+                    const hasShift = !!sh && !OFFSET.includes(sh);
+                    const k = off ? 'o' : hasShift ? (sh[0] === 'N' ? 'n' : 'm') : '';
+                    const e = dayEarn(r, s, S.br);
+                    const isCycStart = d.s === cyc[0]?.s;
+                    const isCycEnd = d.s === cyc[cyc.length - 1]?.s;
+                    return (
+                      <button key={d.s} className={`cell ${k} ${d.s === td ? 'today' : ''}`} onClick={() => openDay(d.s)}>
+                        <span className="d">{d.dt.getDate()}</span>
+                        {ui.showOt && n(r.ot) > 0 && <span className="ot">{r.ot}j</span>}
+                        {off
+                          ? <span className="offlbl">
+                              <span className="t">{dt.includes('OFF') ? 'OFF' : 'REST'}</span>
+                              {hasShift && (ui.shiftDisplay === 'text'
+                                ? <span className="st">{sh}</span>
+                                : <span className="ic">{sh[0] === 'N' ? <MoonI /> : <SunI />}</span>)}
+                            </span>
+                          : hasShift ? (ui.shiftDisplay === 'text'
+                            ? <span className="t">{sh}</span>
+                            : <span className="ic">{sh[0] === 'N' ? <MoonI /> : <SunI />}</span>)
+                          : null}
+                        {ui.earn && e > 0 && <span className="rm">RM{Math.round(e)}</span>}
+                        {r.note && <span className="nt">{r.note}</span>}
+                        {ui.showOt && n(r.ot) > 0 && <span className="heat" style={{ width: Math.min(100, n(r.ot) / 8 * 100) + '%' }} />}
+                        {isCycStart ? <span className="edge">MULA</span> : isCycEnd ? <span className="edge">TAMAT</span> : null}
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="legend"><span><i style={{ background: 'var(--sun2)' }} />Pagi</span><span><i style={{ background: 'var(--mo1)' }} />Malam</span><span><i style={{ background: 'var(--off)' }} />Off/Rest</span>{ui.showOt && <span>Bar putih = OT</span>}</div>
+              </> : <>
+                <div className="card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}><b>Kitaran gaji</b><input type="month" value={am} onChange={e => e.target.value && setAm(e.target.value)} style={{ width: 'auto' }} /></div>
+                {Nav}
+                <div className="card">
+                  <div className="row"><span>Gaji asas</span><b>{RM(n(s.baseSalary))}</b></div>
+                  <div className="row clk" onClick={() => setSub({ t: 'bd', k: 'al' })}><span>Elaun ({RM(S.ex)} tambahan) ›</span><b style={{ color: 'var(--ok)' }}>{RM(S.al)}</b></div>
+                  <div className="row clk" onClick={() => setSub({ t: 'bd', k: 'ot' })}><span>OT ({S.oh} jam @ {RM(S.br)}/j) ›</span><b style={{ color: 'var(--ac)' }}>{RM(S.ot)}</b></div>
+                  <div className="row"><span>Gaji kasar</span><b>{RM(S.gross)}</b></div>
+                  <div className="row"><span>Potongan</span><b style={{ color: 'var(--bad)' }}>− {RM(S.ded)}</b></div>
+                  <div className="row big"><span>Gaji bersih</span><b>{RM(S.net)}</b></div>
+                  <button className="btn" onClick={openSlip}>Kongsi slip gaji</button>
+                </div>
+                <div className="card"><table><thead><tr><th>Tarikh</th><th>Jenis</th><th>Syif</th><th>OT</th><th>RM</th></tr></thead><tbody>
+                  {cyc.map(d => { const r = rec[d.s] || {}, e = dayEarn(r, s, S.br); return <tr key={d.s}><td>{p2(d.dt.getDate())}/{p2(d.dt.getMonth() + 1)}</td><td>{r.dayType || '-'}</td><td>{r.shift || '-'}</td><td>{r.ot || '-'}</td><td>{e ? Math.round(e) : '-'}</td></tr>; })}
+                </tbody></table></div>
+              </>}
+            </main>
+
+            <div className="tab">
+              <button className={view === 'cal' ? 'on' : ''} onClick={() => setView('cal')}><Ico d={P.cal} />Kalendar</button>
+              <button className={view === 'sal' ? 'on' : ''} onClick={() => setView('sal')}><Ico d={P.cash} />Kira Gaji</button>
+            </div>
+
+            {modal === 'day' && dm && (() => {
+              const [y, m, dd] = dm.k.split('-').map(Number), dn = ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'][new Date(y, m - 1, dd).getDay()];
+              return (
+                <Sheet title={`${dn}, ${dd} ${MON[m - 1]} ${y}`} onClose={() => setModal(null)}>
+                  <label>Jenis hari</label>
+                  <select value={dm.d.dayType} onChange={e => dmChange('dayType', e.target.value)}>{s.dayTypes.map(t => <option key={t.id} value={t.name}>{t.name}</option>)}</select>
+                  <div className="g2">
+                    <div><label>Syif</label><select value={dm.d.shift} onChange={e => dmChange('shift', e.target.value)}><option value="">Tiada</option>{SHIFTS.map(o => <option key={o}>{o}</option>)}</select></div>
+                    <Num label="OT (jam)" step="0.5" value={dm.d.ot} onChange={e => dmChange('ot', e.target.value)} />
+                  </div>
+                  <label>Nota</label><input type="text" value={dm.d.note} onChange={e => dmChange('note', e.target.value)} />
+                  <button className="btn" onClick={saveDay}>Simpan</button>
+                  <button className="btn g" onClick={copyPrev}>Salin dari hari sebelumnya</button>
+                  <button className="btn r" onClick={delDay}>Padam rekod</button>
+                </Sheet>
+              );
+            })()}
+
+            {modal === 'pat' && (
+              <Sheet title="Jana corak automatik" onClose={() => setModal(null)}>
+                <label>Dari tarikh</label><input type="date" value={pat.start} onChange={e => setPat({ ...pat, start: e.target.value })} />
+                <label>Corak (M, N, OFF, REST)</label><textarea rows="2" value={pat.pattern} onChange={e => setPat({ ...pat, pattern: e.target.value })} />
+                <label>Sehingga tarikh</label><input type="date" value={pat.end} onChange={e => setPat({ ...pat, end: e.target.value })} />
+                <p style={{ color: 'var(--mut)', fontSize: 12 }}>Rekod sedia ada dalam julat ini akan diganti.</p>
+                <button className="btn" onClick={genPat}>Jana sekarang</button>
+              </Sheet>
+            )}
+
+            {modal === 'slip' && (
+              <Sheet title="Slip gaji" onClose={() => setModal(null)}>
+                <img className="slip" src={slip} alt="Slip gaji" />
+                <button className="btn" onClick={shareSlip}>Kongsi</button>
+                <p style={{ color: 'var(--mut)', fontSize: 12, textAlign: 'center' }}>Jika butang tidak berfungsi, tekan lama imej untuk simpan.</p>
+              </Sheet>
+            )}
+
+            {modal === 'set' && (
+              <Sheet title={`Tetapan · ${am}`} onClose={() => setModal(null)}>
+                <p style={{ color: 'var(--mut)', fontSize: 12, margin: 0 }}>Tetapan ini untuk kitaran {am} dan diwarisi bulan seterusnya.</p>
+                <h4>Warna aksen</h4>
+                <div className="sw">{['#f5b73b', '#34d399', '#22d3ee', '#f472b6', '#a78bfa'].map(c => <button key={c} className={ui.acc === c ? 'on' : ''} style={{ background: c }} aria-label={'Warna ' + c} onClick={() => setUi({ ...ui, acc: c })} />)}</div>
+
+                <h4>Paparan kalendar</h4>
+                <label>Julat</label>
+                <div className="seg">
+                  <button className={ui.calendarMode !== 'month' ? 'on' : ''} onClick={() => setUi({ ...ui, calendarMode: 'cycle' })}>Ikut kitaran</button>
+                  <button className={ui.calendarMode === 'month' ? 'on' : ''} onClick={() => setUi({ ...ui, calendarMode: 'month' })}>Ikut 1hb</button>
+                </div>
+                <p style={{ color: 'var(--mut)', fontSize: 12, margin: '8px 0 0' }}>Pilihan paparan sahaja. Kiraan gaji tetap mengikut kitaran Mula/Tamat di bawah.</p>
+                <label>Gaya syif</label>
+                <div className="seg">
+                  <button className={ui.shiftDisplay !== 'text' ? 'on' : ''} onClick={() => setUi({ ...ui, shiftDisplay: 'icon' })}>Ikon</button>
+                  <button className={ui.shiftDisplay === 'text' ? 'on' : ''} onClick={() => setUi({ ...ui, shiftDisplay: 'text' })}>Huruf</button>
+                </div>
+                <label style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 10 }}><input type="checkbox" style={{ width: 'auto' }} checked={ui.netEnabled !== false} onChange={e => setUi({ ...ui, netEnabled: e.target.checked })} />Anggaran gaji bersih</label>
+                <label style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 8 }}><input type="checkbox" style={{ width: 'auto' }} checked={ui.showUpcomingNotes !== false} onChange={e => setUi({ ...ui, showUpcomingNotes: e.target.checked })} />Nota akan datang</label>
+                <label>Papar nota sebelum (hari)</label>
+                <input type="number" min="0" max="30" value={ui.noteReminderDays} onChange={e => setUi({ ...ui, noteReminderDays: Math.max(0, Math.min(30, parseInt(e.target.value, 10) || 0)) })} />
+                <p style={{ color: 'var(--mut)', fontSize: 12, margin: '8px 0 0' }}>Nota dengan tarikh dalam julat ini akan dipaparkan pada kalendar.</p>
+
+                <h4>Gaji dan kitaran</h4>
+                <label>Nama jadual</label><input value={s.shiftName || ''} onChange={e => setF('shiftName', e.target.value)} />
+                <div className="g2">
+                  <Num label="Gaji asas (RM)" value={s.baseSalary} onChange={e => setF('baseSalary', e.target.value)} />
+                  <Num label={n(s.baseSalary) >= 4000 ? 'Kadar sejam' : 'Kadar sejam (auto)'} readOnly={n(s.baseSalary) < 4000} value={n(s.baseSalary) >= 4000 ? s.customHourlyRate : (n(s.baseSalary) / 26 / 8).toFixed(2)} onChange={e => setF('customHourlyRate', e.target.value)} />
+                  <Num label="Mula (hb)" value={s.cycleStart} onChange={e => setF('cycleStart', e.target.value)} />
+                  <Num label="Tamat (hb)" value={s.cycleEnd} onChange={e => setF('cycleEnd', e.target.value)} />
+                </div>
+
+                <h4>Jenis hari dan gandaan OT</h4>
+                <button className="btn g" onClick={() => mod(c => c.dayTypes.push({ id: Date.now(), name: 'Baru', isTiered: false, rate: 1.5, tier1Hours: 8, tier1Rate: 2, tier2Rate: 3 }))}>Tambah jenis hari</button>
+                {s.dayTypes.map(t => (
+                  <div className="card" key={t.id} style={{ padding: 10, margin: '8px 0' }}>
+                    <div className="li" style={{ gridTemplateColumns: '1fr 34px' }}>
+                      <input value={t.name} onChange={e => dtUpd(t.id, 'name', e.target.value)} />
+                      <button className="ib" style={{ margin: 0, width: 34 }} aria-label="Padam" onClick={() => ask('Pasti mahu padam jenis hari ini?', () => mod(c => { c.dayTypes = c.dayTypes.filter(z => z.id !== t.id); }))}><Ico d={P.trash} /></button>
+                    </div>
+                    <label style={{ display: 'flex', gap: 8, alignItems: 'center' }}><input type="checkbox" style={{ width: 'auto' }} checked={!!t.isTiered} onChange={e => dtUpd(t.id, 'isTiered', e.target.checked)} />Kadar bertingkat</label>
+                    {t.isTiered
+                      ? <div className="g3"><Num label="Jam pertama" value={t.tier1Hours} onChange={e => dtUpd(t.id, 'tier1Hours', e.target.value)} /><Num label="Kadar ×" step="0.5" value={t.tier1Rate} onChange={e => dtUpd(t.id, 'tier1Rate', e.target.value)} /><Num label="Baki ×" step="0.5" value={t.tier2Rate} onChange={e => dtUpd(t.id, 'tier2Rate', e.target.value)} /></div>
+                      : <Num label="Kadar × asas" step="0.5" value={t.rate} onChange={e => dtUpd(t.id, 'rate', e.target.value)} />}
+                  </div>
+                ))}
+
+                <h4>Elaun syif (RM)</h4>
+                <div className="g3">{Object.keys(DEF.allowances).map(k => <Num key={k} label={k} value={s.allowances[k]} onChange={e => mod(c => { c.allowances[k] = e.target.value; })} />)}</div>
+                <Num label="Elaun meal (syif N)" value={s.mealAllowance} onChange={e => setF('mealAllowance', e.target.value)} />
+
+                {[['customAllowances', 'Elaun tambahan', 'Tambah elaun', 'Pasti mahu padam elaun tambahan ini?'], ['deductions', 'Potongan', 'Tambah potongan', 'Pasti mahu padam potongan ini?']].map(([key, ttl, addL, msg]) => (
+                  <div key={key}>
+                    <h4>{ttl}</h4>
+                    {s[key].map(x => (
+                      <div className="li" key={x.id}>
+                        <input value={x.name} placeholder="Nama" onChange={e => lstUpd(key, x.id, 'name', e.target.value)} />
+                        <input type="number" inputMode="decimal" value={x.amount} placeholder="RM" onChange={e => lstUpd(key, x.id, 'amount', e.target.value)} />
+                        <button className="ib" style={{ margin: 0, width: 34 }} aria-label="Padam" onClick={() => lstDel(key, x.id, msg)}><Ico d={P.trash} /></button>
+                      </div>
+                    ))}
+                    <button className="btn g" onClick={() => mod(c => c[key].push({ id: Date.now(), name: '', amount: '' }))}>{addL}</button>
+                  </div>
+                ))}
+
+                <h4>Simpan dan panggil data</h4>
+                <p style={{ color: 'var(--mut)', fontSize: 12, margin: 0 }}>Data disimpan automatik dalam peranti. Simpan satu salinan sandaran untuk dipanggil semula bila perlu.</p>
+                <div className="g2">
+                  <button className="btn g" onClick={saveSlot}>Simpan data</button>
+                  <button className="btn g" onClick={restoreSlot}>Pulih data</button>
+                </div>
+                {lastBackup && <p style={{ color: 'var(--mut)', fontSize: 12, margin: '8px 0 0' }}>Sandaran terakhir: {new Date(lastBackup).toLocaleString('ms-MY', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>}
+                <div className="g2" style={{ marginTop: 8 }}>
+                  <button className="btn g" onClick={exportFile}>Export fail</button>
+                  <button className="btn g" onClick={() => fileRef.current && fileRef.current.click()}>Import fail</button>
+                </div>
+                <input type="file" ref={fileRef} accept=".json" hidden onChange={importFile} />
+              </Sheet>
+            )}
+
+            {sub && sub.t === 'cf' && (
+              <Sheet top title="Pasti?" onClose={() => setSub(null)}>
+                <p>{sub.m}</p>
+                <div className="g2"><button className="btn g" onClick={() => setSub(null)}>Tidak</button><button className={sub.okCls || 'btn r'} onClick={() => { const f = sub.fn; setSub(null); f && f(); }}>{sub.ok || 'Ya, padam'}</button></div>
+              </Sheet>
+            )}
+            {sub && sub.t === 'bd' && sub.k === 'ot' && (
+              <Sheet top title="Perincian OT" onClose={() => setSub(null)}>
+                <div className="row"><span>Kadar asas/jam</span><b>{RM(S.br)}</b></div>
+                {Object.keys(S.bd).sort().map(k => <div className="row" key={k}><span>{k}x ({S.bd[k].h}j)</span><b>{RM(S.bd[k].a)}</b></div>)}
+                {!Object.keys(S.bd).length && <p style={{ color: 'var(--mut)' }}>Tiada rekod OT bulan ini.</p>}
+                <div className="row big"><span>Jumlah OT</span><b>{RM(S.ot)}</b></div>
+              </Sheet>
+            )}
+            {sub && sub.t === 'bd' && sub.k === 'al' && (
+              <Sheet top title="Perincian elaun" onClose={() => setSub(null)}>
+                <h4>Elaun syif dan meal</h4>
+                {Object.keys(s.allowances).filter(k => S.sc[k]).map(k => <div className="row" key={k}><span>Syif {k} ({S.sc[k]}×{RM(n(s.allowances[k]))})</span><b>{RM(S.sc[k] * n(s.allowances[k]))}</b></div>)}
+                {S.mn > 0 && <div className="row"><span>Meal N ({S.mn}×{RM(n(s.mealAllowance))})</span><b>{RM(S.mn * n(s.mealAllowance))}</b></div>}
+                {!Object.keys(S.sc).length && <p style={{ color: 'var(--mut)' }}>Tiada.</p>}
+                {s.customAllowances.some(x => n(x.amount)) && <><h4>Elaun tambahan</h4>{s.customAllowances.filter(x => n(x.amount)).map(x => <div className="row" key={x.id}><span>{x.name}</span><b>{RM(n(x.amount))}</b></div>)}</>}
+                <div className="row big"><span>Jumlah elaun</span><b>{RM(S.al)}</b></div>
+              </Sheet>
+            )}
+
+            {toastMsg && <div className="toast">{toastMsg}</div>}
+          </div>
+        );
       }
 
-      function eksportJson() {
-        const kotak = document.getElementById("kotakSandaran");
-        kotak.style.display = "block";
-        kotak.value = JSON.stringify(negeri, null, 2);
-        kotak.select();
-      }
-
-      function resetSemuaData() {
-        if (!confirm("Padam semua tetapan dan perubahan manual Jadual Syif Q?")) return;
-        localStorage.removeItem("jadual_syif_q_penuh_v1");
-        location.reload();
-      }
-
-      muatInput();
-      pilihTarikh(tarikhDipilihISO);
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
     </script>
   </body>
 </html>
