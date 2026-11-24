@@ -3,10 +3,135 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calendar Salary</title>
+    <title>Jadual Syif Q & Kiraan Gaji</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: #f8fafc;
+        margin: 0;
+        padding: 20px;
+      }
+      .kad {
+        max-width: 440px;
+        margin: 0 auto;
+        background: #1e293b;
+        border-radius: 14px;
+        padding: 20px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      }
+      h1 {
+        font-size: 1.3rem;
+        margin-top: 0;
+        color: #38bdf8;
+      }
+      label {
+        display: block;
+        margin-top: 12px;
+        font-size: 0.9rem;
+        color: #cbd5e1;
+      }
+      input, select {
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 6px;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #475569;
+        background: #0f172a;
+        color: #ffffff;
+        font-size: 1rem;
+      }
+      button {
+        width: 100%;
+        margin-top: 16px;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: #22c55e;
+        color: #052e16;
+        font-weight: bold;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+      .hasil {
+        margin-top: 18px;
+        padding: 14px;
+        border-radius: 10px;
+        background: #0f172a;
+        border-left: 4px solid #38bdf8;
+      }
+      .jumlah {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #4ade80;
+        margin-top: 6px;
+      }
+    </style>
   </head>
   <body>
-    <h1>Calendar Salary Sedang Berjalan!</h1>
-    <p>Tahniah, web app pertama berjaya dimulakan.</p>
+    <div class="kad">
+      <h1>Jadual Syif Q & Kiraan Gaji</h1>
+      <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 4px;">
+        Dibina oleh KoMeZ • Versi pantas di GitHub Pages
+      </p>
+
+      <label for="gajiPokok">Gaji Pokok / Anggaran Bulanan (RM)</label>
+      <input id="gajiPokok" type="number" step="0.01" placeholder="Contoh: 2500" />
+
+      <label for="jamOt">Jam Lebih Masa (OT)</label>
+      <input id="jamOt" type="number" step="0.5" placeholder="Contoh: 12" />
+
+      <label for="kadarOt">Kadar OT (RM / jam)</label>
+      <input id="kadarOt" type="number" step="0.01" placeholder="Contoh: 18" />
+
+      <label for="kodSyif">Kod Syif Hari Ini</label>
+      <select id="kodSyif">
+        <option value="m">m (Siang)</option>
+        <option value="n">n (Malam)</option>
+        <option value="m<8">m&lt;8</option>
+        <option value="n<8">n&lt;8</option>
+        <option value="m<12">m&lt;12</option>
+        <option value="n<12">n&lt;12</option>
+      </select>
+
+      <button onclick="kiraGaji()">Kira & Simpan</button>
+
+      <div class="hasil">
+        <div id="infoSyif" style="font-size: 0.9rem; color: #93c5fd;">Syif: m (Siang)</div>
+        <div class="jumlah" id="jumlahGaji">Jumlah: RM 0.00</div>
+      </div>
+    </div>
+
+    <script>
+      function muatData() {
+        const simpan = JSON.parse(localStorage.getItem("komez_gaji_v1") || "{}");
+        if (simpan.gajiPokok) document.getElementById("gajiPokok").value = simpan.gajiPokok;
+        if (simpan.jamOt) document.getElementById("jamOt").value = simpan.jamOt;
+        if (simpan.kadarOt) document.getElementById("kadarOt").value = simpan.kadarOt;
+        if (simpan.kodSyif) document.getElementById("kodSyif").value = simpan.kodSyif;
+        kiraGaji(false);
+      }
+
+      function kiraGaji(simpanKeStorage = true) {
+        const pokok = parseFloat(document.getElementById("gajiPokok").value) || 0;
+        const jam = parseFloat(document.getElementById("jamOt").value) || 0;
+        const kadar = parseFloat(document.getElementById("kadarOt").value) || 0;
+        const syif = document.getElementById("kodSyif").value;
+
+        const total = pokok + jam * kadar;
+        document.getElementById("infoSyif").textContent = "Syif dipilih: " + syif + " | OT: " + jam + " jam";
+        document.getElementById("jumlahGaji").textContent = "Jumlah: RM " + total.toFixed(2);
+
+        if (simpanKeStorage) {
+          localStorage.setItem(
+            "komez_gaji_v1",
+            JSON.stringify({ gajiPokok: pokok, jamOt: jam, kadarOt: kadar, kodSyif: syif })
+          );
+        }
+      }
+
+      muatData();
+    </script>
   </body>
 </html>
