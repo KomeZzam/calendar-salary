@@ -5,207 +5,377 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Jadual Syif Q • KoMeZ</title>
     <style>
+      :root {
+        --bg: #0f172a;
+        --card: #1e293b;
+        --panel: #0f172a;
+        --border: #334155;
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --accent: #38bdf8;
+        --green: #22c55e;
+        --amber: #f59e0b;
+        --red: #ef4444;
+      }
       body {
-        font-family: Arial, sans-serif;
-        background: #0f172a;
-        color: #f8fafc;
+        font-family: system-ui, -apple-system, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
         margin: 0;
-        padding: 16px;
+        padding: 14px;
+      }
+      .app {
+        max-width: 520px;
+        margin: 0 auto 32px auto;
       }
       .kad {
-        max-width: 480px;
-        margin: 0 auto 16px auto;
-        background: #1e293b;
+        background: var(--card);
+        border: 1px solid var(--border);
         border-radius: 14px;
-        padding: 18px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        padding: 16px;
+        margin-bottom: 14px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
       }
       h1 {
-        font-size: 1.25rem;
-        margin: 0 0 4px 0;
-        color: #38bdf8;
+        font-size: 1.3rem;
+        margin: 0;
+        color: var(--accent);
+      }
+      h2 {
+        font-size: 1rem;
+        margin: 0 0 10px 0;
+        color: #e2e8f0;
       }
       .sub {
-        font-size: 0.82rem;
-        color: #94a3b8;
-        margin-bottom: 14px;
+        font-size: 0.8rem;
+        color: var(--muted);
+        margin-top: 4px;
       }
-      label {
-        display: block;
-        margin-top: 10px;
-        font-size: 0.85rem;
-        color: #cbd5e1;
-      }
-      input, select {
-        width: 100%;
-        box-sizing: border-box;
-        margin-top: 5px;
-        padding: 9px;
-        border-radius: 8px;
-        border: 1px solid #475569;
-        background: #0f172a;
-        color: #ffffff;
-        font-size: 0.95rem;
-      }
-      .baris-2 {
+      .grid-2 {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 10px;
       }
-      .nav-bulan {
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      label {
+        display: block;
+        font-size: 0.78rem;
+        color: #cbd5e1;
+        margin-top: 10px;
+      }
+      input, select, textarea {
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 4px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid #475569;
+        background: var(--panel);
+        color: var(--text);
+        font-size: 0.9rem;
+      }
+      .nav-tempoh {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin: 14px 0 10px 0;
-        background: #0f172a;
-        padding: 8px 12px;
+        gap: 8px;
+        background: var(--panel);
+        border: 1px solid var(--border);
         border-radius: 10px;
+        padding: 8px 10px;
+        margin-top: 10px;
       }
-      .btn-kecil {
-        background: #334155;
-        color: #fff;
+      .btn {
         border: none;
-        border-radius: 6px;
-        padding: 6px 12px;
-        font-weight: bold;
+        border-radius: 8px;
+        padding: 9px 12px;
+        font-weight: 700;
+        font-size: 0.85rem;
         cursor: pointer;
       }
-      .grid-kalendar {
+      .btn-nav {
+        background: #334155;
+        color: #fff;
+      }
+      .btn-hijau {
+        background: var(--green);
+        color: #052e16;
+      }
+      .btn-biru {
+        background: var(--accent);
+        color: #082f49;
+      }
+      .btn-merah {
+        background: var(--red);
+        color: #fff;
+      }
+      .kalendar-head, .kalendar-grid {
         display: grid;
         grid-template-columns: repeat(7, 1fr);
-        gap: 6px;
+        gap: 5px;
         margin-top: 8px;
       }
-      .hari-header {
+      .hari-lbl {
         text-align: center;
         font-size: 0.72rem;
-        color: #94a3b8;
-        font-weight: bold;
+        color: var(--muted);
+        font-weight: 700;
       }
-      .sel-tarikh {
-        background: #0f172a;
-        border: 1px solid #334155;
+      .sel {
+        background: var(--panel);
+        border: 1px solid var(--border);
         border-radius: 8px;
         padding: 6px 2px;
         text-align: center;
         cursor: pointer;
-        user-select: none;
+        min-height: 48px;
       }
-      .sel-tarikh .no {
-        font-size: 0.85rem;
-        font-weight: bold;
+      .sel.hari-ini {
+        border-color: var(--accent);
+        box-shadow: inset 0 0 0 1px var(--accent);
       }
-      .sel-tarikh .kod {
-        font-size: 0.72rem;
+      .sel.dipilih {
+        background: #172554;
+        border-color: #60a5fa;
+      }
+      .no-hari {
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+      .tag-kod {
         margin-top: 3px;
+        font-size: 0.68rem;
+        font-weight: 700;
         padding: 2px 4px;
         border-radius: 4px;
         display: inline-block;
-        font-weight: bold;
       }
-      .syif-m { background: #0284c7; color: #fff; }
-      .syif-n { background: #7c3aed; color: #fff; }
-      .syif-off { background: #16a34a; color: #fff; }
-      .syif-ot { background: #d97706; color: #fff; }
-      .btn-utama {
-        width: 100%;
-        margin-top: 14px;
-        padding: 11px;
-        border: none;
-        border-radius: 8px;
-        background: #22c55e;
-        color: #052e16;
-        font-weight: bold;
-        font-size: 0.95rem;
-        cursor: pointer;
+      .k-m { background: #0284c7; color: #fff; }
+      .k-n { background: #6d28d9; color: #fff; }
+      .k-off { background: #15803d; color: #fff; }
+      .k-ot { background: #b45309; color: #fff; }
+      .ringkasan-bar {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 12px;
       }
-      .hasil {
-        margin-top: 14px;
-        padding: 12px;
+      .kotak-stat {
+        background: var(--panel);
+        border: 1px solid var(--border);
         border-radius: 10px;
-        background: #0f172a;
-        border-left: 4px solid #38bdf8;
+        padding: 8px;
+        text-align: center;
       }
-      .jumlah {
-        font-size: 1.3rem;
-        font-weight: bold;
+      .kotak-stat .val {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .kotak-stat .lbl {
+        font-size: 0.7rem;
+        color: var(--muted);
+      }
+      .panel-tarikh {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px;
+        margin-top: 12px;
+      }
+      .gaji-box {
+        background: var(--panel);
+        border-left: 4px solid var(--green);
+        border-radius: 10px;
+        padding: 12px;
+        margin-top: 12px;
+      }
+      .gaji-besar {
+        font-size: 1.4rem;
+        font-weight: 800;
         color: #4ade80;
         margin-top: 4px;
+      }
+      .baris-aksi {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .baris-aksi .btn {
+        flex: 1;
+        min-width: 110px;
       }
     </style>
   </head>
   <body>
-    <div class="kad">
-      <h1>Jadual Syif Q</h1>
-      <div class="sub">Kitaran 4 Kerja 2 Cuti • Potongan Gaji 20hb – 19hb • KoMeZ</div>
+    <div class="app">
+      <div class="kad">
+        <h1>Jadual Syif Q</h1>
+        <div class="sub">Kitaran 4 Kerja 2 Cuti • Kitaran Gaji 20hb – 19hb • KoMeZ</div>
 
-      <div class="baris-2">
-        <div>
-          <label for="tarikhMula">Tarikh Mula Kitaran (Hari 1 = m)</label>
-          <input id="tarikhMula" type="date" onchange="simpanTetapan()" />
+        <div class="grid-2">
+          <div>
+            <label for="tarikhMula">Tarikh Mula Kitaran (Hari 1)</label>
+            <input id="tarikhMula" type="date" onchange="simpanUtama()" />
+          </div>
+          <div>
+            <label for="corakKitaran">Corak 6 Hari (4 Kerja + 2 Cuti)</label>
+            <select id="corakKitaran" onchange="simpanUtama()">
+              <option value="4m2off">m, m, m, m, OFF, OFF</option>
+              <option value="4n2off">n, n, n, n, OFF, OFF</option>
+              <option value="2m2n2off">m, m, n, n, OFF, OFF</option>
+            </select>
+          </div>
         </div>
-        <div>
-          <label for="gajiPokok">Gaji Pokok (RM)</label>
-          <input id="gajiPokok" type="number" step="0.01" placeholder="2500" onchange="simpanTetapan()" />
+
+        <div class="nav-tempoh">
+          <button class="btn btn-nav" onclick="an需求Bulan(-1)">◀ Prev</button>
+          <div id="labelTempoh" style="font-size: 0.85rem; font-weight: 700; text-align: center;"></div>
+          <button class="btn btn-nav" onclick="an需求Bulan(1)">Next ▶</button>
+        </div>
+
+        <div class="kalendar-head">
+          <div class="hari-lbl">Ahd</div>
+          <div class="hari-lbl">Isn</div>
+          <div class="hari-lbl">Sel</div>
+          <div class="hari-lbl">Rab</div>
+          <div class="hari-lbl">Kha</div>
+          <div class="hari-lbl">Jum</div>
+          <div class="hari-lbl">Sab</div>
+        </div>
+        <div id="gridKalendar" class="kalendar-grid"></div>
+
+        <div class="ringkasan-bar">
+          <div class="kotak-stat">
+            <div class="val" id="statKerja">0</div>
+            <div class="lbl">Hari Kerja</div>
+          </div>
+          <div class="kotak-stat">
+            <div class="val" id="statOff">0</div>
+            <div class="lbl">Hari OFF</div>
+          </div>
+          <div class="kotak-stat">
+            <div class="val" id="statOtJam">0.0</div>
+            <div class="lbl">Jumlah Jam OT</div>
+          </div>
+        </div>
+
+        <div class="panel-tarikh">
+          <div style="font-size: 0.85rem; font-weight: 700; color: #7dd3fc;" id="tajukTarikhDipilih">
+            Pilih tarikh pada kalendar
+          </div>
+          <div class="grid-3">
+            <div>
+              <label for="kodHariIni">Kod Syif</label>
+              <select id="kodHariIni" onchange="kemasKiniHariDipilih()">
+                <option value="m">m</option>
+                <option value="n">n</option>
+                <option value="m<8">m&lt;8</option>
+                <option value="n<8">n&lt;8</option>
+                <option value="m<12">m&lt;12</option>
+                <option value="n<12">n&lt;12</option>
+                <option value="OFF">OFF</option>
+              </select>
+            </div>
+            <div>
+              <label for="otJamHariIni">Jam OT</label>
+              <input id="otJamHariIni" type="number" step="0.5" min="0" onchange="kemasKiniHariDipilih()" />
+            </div>
+            <div>
+              <label for="gandaHariIni">Gandaan OT</label>
+              <select id="gandaHariIni" onchange="kemasKiniHariDipilih()">
+                <option value="1.5">1.5x</option>
+                <option value="2.0">2.0x</option>
+                <option value="3.0">3.0x</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-biru" style="margin-top: 10px; width: 100%;" onclick="buangOverrideTarikh()">
+            Kembali ke Kitaran Auto untuk Tarikh Ini
+          </button>
         </div>
       </div>
 
-      <div class="nav-bulan">
-        <button class="btn-kecil" onclick="tukarTempoh(-1)">◀</button>
-        <div id="tajukTempoh" style="font-size: 0.88rem; font-weight: bold; color: #e2e8f0;">Tempoh Gaji</div>
-        <button class="btn-kecil" onclick="tukarTempoh(1)">▶</button>
-      </div>
+      <div class="kad">
+        <h2>Kiraan Anggaran Gaji & OT</h2>
+        <div class="grid-2">
+          <div>
+            <label for="gajiPokok">Gaji Pokok (RM)</label>
+            <input id="gajiPokok" type="number" step="0.01" min="0" onchange="simpanUtama()" />
+          </div>
+          <div>
+            <label for="hariKerjaBulan">Pembahagi Hari Sebulan</label>
+            <input id="hariKerjaBulan" type="number" step="1" min="1" onchange="simpanUtama()" />
+          </div>
+        </div>
 
-      <div class="grid-kalendar">
-        <div class="hari-header">Ahd</div>
-        <div class="hari-header">Isn</div>
-        <div class="hari-header">Sel</div>
-        <div class="hari-header">Rab</div>
-        <div class="hari-header">Kha</div>
-        <div class="hari-header">Jum</div>
-        <div class="hari-header">Sab</div>
-      </div>
-      <div id="badanKalendar" class="grid-kalendar"></div>
+        <div class="grid-2">
+          <div>
+            <label for="elaunTambahan">Elaun Tetap / Syif (RM)</label>
+            <input id="elaunTambahan" type="number" step="0.01" min="0" onchange="simpanUtama()" />
+          </div>
+          <div>
+            <label for="potonganLain">Potongan / Pendahuluan (RM)</label>
+            <input id="potonganLain" type="number" step="0.01" min="0" onchange="simpanUtama()" />
+          </div>
+        </div>
 
-      <div style="font-size: 0.75rem; color: #94a3b8; margin-top: 10px;">
-        * Tekan mana-mana tarikh di atas untuk tukar kod syif secara manual (m → n → m&lt;8 → n&lt;8 → m&lt;12 → n&lt;12 → OFF).
-      </div>
+        <div class="gaji-box">
+          <div id="pecahanGaji" style="font-size: 0.82rem; color: #cbd5e1;"></div>
+          <div class="gaji-besar" id="jumlahGajiBersih">Anggaran Bersih: RM 0.00</div>
+        </div>
 
-      <div class="hasil">
-        <div id="ringkasanSyif" style="font-size: 0.85rem; color: #93c5fd;"></div>
-        <div class="jumlah" id="anggaranGaji">Anggaran Gaji: RM 0.00</div>
+        <div class="baris-aksi">
+          <button class="btn btn-hijau" onclick="eksportJson()">Salin Sandaran JSON</button>
+          <button class="btn btn-merah" onclick="resetSemuaData()">Reset Data</button>
+        </div>
+        <textarea id="kotakSandaran" rows="3" style="display: none; margin-top: 10px; font-size: 0.75rem;" readonly></textarea>
       </div>
     </div>
 
     <script>
-      const SENARAI_KOD = ["m", "n", "m<8", "n<8", "m<12", "n<12", "OFF"];
-      // Kitaran 6 hari: 2 hari m, 2 hari n, 2 hari OFF (boleh klik mana-mana tarikh untuk ubah)
-      const KITARAN_ASAL = ["m", "m", "n", "n", "OFF", "OFF"];
+      const CORAK_PETA = {
+        "4m2off": ["m", "m", "m", "m", "OFF", "OFF"],
+        "4n2off": ["n", "n", "n", "n", "OFF", "OFF"],
+        "2m2n2off": ["m", "m", "n", "n", "OFF", "OFF"]
+      };
 
-      let data = JSON.parse(localStorage.getItem("jadual_syif_q_v2") || "{}");
-      if (!data.tarikhMula) data.tarikhMula = "2026-11-20";
-      if (!data.gajiPokok) data.gajiPokok = 2500;
-      if (!data.manual) data.manual = {};
+      const OT_LALAI = {
+        "m": { jam: 3.0, ganda: 1.5 },
+        "n": { jam: 3.0, ganda: 1.5 },
+        "m<8": { jam: 1.5, ganda: 1.5 },
+        "n<8": { jam: 1.5, ganda: 1.5 },
+        "m<12": { jam: 4.0, ganda: 2.0 },
+        "n<12": { jam: 4.0, ganda: 2.0 },
+        "OFF": { jam: 0.0, ganda: 1.5 }
+      };
+
+      const NAMA_BULAN = ["Jan", "Feb", "Mac", "Apr", "Mei", "Jun", "Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"];
+
+      let negeri = JSON.parse(localStorage.getItem("jadual_syif_q_penuh_v1") || "null");
+      if (!negeri) {
+        negeri = {
+          tarikhMula: "2026-11-20",
+          corakKitaran: "4m2off",
+          gajiPokok: 2500,
+          hariKerjaBulan: 26,
+          elaunTambahan: 0,
+          potonganLain: 0,
+          overrides: {}
+        };
+      }
 
       let rujukanBulan = new Date();
       if (rujukanBulan.getDate() >= 20) {
         rujukanBulan = new Date(rujukanBulan.getFullYear(), rujukanBulan.getMonth() + 1, 1);
       }
 
-      document.getElementById("tarikhMula").value = data.tarikhMula;
-      document.getElementById("gajiPokok").value = data.gajiPokok;
-
-      function simpanTetapan() {
-        data.tarikhMula = document.getElementById("tarikhMula").value;
-        data.gajiPokok = parseFloat(document.getElementById("gajiPokok").value) || 0;
-        localStorage.setItem("jadual_syif_q_v2", JSON.stringify(data));
-        paparKalendar();
-      }
-
-      function tukarTempoh(arah) {
-        rujukanBulan = new Date(rujukanBulan.getFullYear(), rujukanBulan.getMonth() + arah, 1);
-        paparKalendar();
-      }
+      let tarikhDipilihISO = formatISO(new Date());
 
       function formatISO(d) {
         const y = d.getFullYear();
@@ -214,80 +384,158 @@
         return `${y}-${m}-${day}`;
       }
 
-      function kiraSyifAuto(tarikh) {
-        const iso = formatISO(tarikh);
-        if (data.manual[iso]) return data.manual[iso];
-        const mula = new Date(data.tarikhMula + "T00:00:00");
-        const bezaHari = Math.floor((tarikh - mula) / (1000 * 60 * 60 * 24));
+      function simpanNegeri() {
+        localStorage.setItem("jadual_syif_q_penuh_v1", JSON.stringify(negeri));
+      }
+
+      function muatInput() {
+        document.getElementById("tarikhMula").value = negeri.tarikhMula;
+        document.getElementById("corakKitaran").value = negeri.corakKitaran;
+        document.getElementById("gajiPokok").value = negeri.gajiPokok;
+        document.getElementById("hariKerjaBulan").value = negeri.hariKerjaBulan;
+        document.getElementById("elaunTambahan").value = negeri.elaunTambahan;
+        document.getElementById("potonganLain").value = negeri.potonganLain;
+      }
+
+      function simpanUtama() {
+        negeri.tarikhMula = document.getElementById("tarikhMula").value || "2026-11-20";
+        negeri.corakKitaran = document.getElementById("corakKitaran").value;
+        negeri.gajiPokok = parseFloat(document.getElementById("gajiPokok").value) || 0;
+        negeri.hariKerjaBulan = parseFloat(document.getElementById("hariKerjaBulan").value) || 26;
+        negeri.elaunTambahan = parseFloat(document.getElementById("elaunTambahan").value) || 0;
+        negeri.potonganLain = parseFloat(document.getElementById("potonganLain").value) || 0;
+        simpanNegeri();
+        paparSemua();
+      }
+
+      function an需求Bulan(delta) {
+        rujukanBulan = new Date(rujukanBulan.getFullYear(), rujukanBulan.getMonth() + delta, 1);
+        paparSemua();
+      }
+
+      function dapatMaklumatHari(tarikhObj) {
+        const iso = formatISO(tarikhObj);
+        if (negeri.overrides[iso]) {
+          return { iso, ...negeri.overrides[iso], manual: true };
+        }
+        const mula = new Date(negeri.tarikhMula + "T00:00:00");
+        const bezaHari = Math.floor((tarikhObj - mula) / (1000 * 60 * 60 * 24));
+        const corak = CORAK_PETA[negeri.corakKitaran] || CORAK_PETA["4m2off"];
         const indeks = ((bezaHari % 6) + 6) % 6;
-        return KITARAN_ASAL[indeks];
+        const kod = corak[indeks];
+        const lalai = OT_LALAI[kod] || { jam: 0, ganda: 1.5 };
+        return { iso, kod, jam: lalai.jam, ganda: lalai.ganda, manual: false };
       }
 
-      function kelasWarna(kod) {
-        if (kod === "OFF") return "syif-off";
-        if (kod === "m") return "syif-m";
-        if (kod === "n") return "syif-n";
-        return "syif-ot";
+      function pilihTarikh(iso) {
+        tarikhDipilihISO = iso;
+        const info = negeri.overrides[iso] || dapatMaklumatHari(new Date(iso + "T00:00:00"));
+        document.getElementById("tajukTarikhDipilih").textContent =
+          `Tarikh: ${iso} ${info.manual ? "(Diubah Manual)" : "(Kitaran Auto)"}`;
+        document.getElementById("kodHariIni").value = info.kod;
+        document.getElementById("otJamHariIni").value = info.jam;
+        document.getElementById("gandaHariIni").value = String(info.ganda);
+        paparSemua();
       }
 
-      function paparKalendar() {
+      function kemasKiniHariDipilih() {
+        const kod = document.getElementById("kodHariIni").value;
+        const jam = parseFloat(document.getElementById("otJamHariIni").value) || 0;
+        const ganda = parseFloat(document.getElementById("gandaHariIni").value) || 1.5;
+        negeri.overrides[tarikhDipilihISO] = { kod, jam, ganda };
+        simpanNegeri();
+        pilihTarikh(tarikhDipilihISO);
+      }
+
+      function buangOverrideTarikh() {
+        delete negeri.overrides[tarikhDipilihISO];
+        simpanNegeri();
+        pilihTarikh(tarikhDipilihISO);
+      }
+
+      function kelasTag(kod) {
+        if (kod === "OFF") return "k-off";
+        if (kod === "m") return "k-m";
+        if (kod === "n") return "k-n";
+        return "k-ot";
+      }
+
+      function paparSemua() {
         const tahun = rujukanBulan.getFullYear();
         const bulan = rujukanBulan.getMonth();
         const mulaTempoh = new Date(tahun, bulan - 1, 20);
         const tamatTempoh = new Date(tahun, bulan, 19);
 
-        const namaBulan = ["Jan", "Feb", "Mac", "Apr", "Mei", "Jun", "Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"];
-        document.getElementById("tajukTempoh").textContent =
-          `20 ${namaBulan[mulaTempoh.getMonth()]} ${mulaTempoh.getFullYear()} – 19 ${namaBulan[tamatTempoh.getMonth()]} ${tamatTempoh.getFullYear()}`;
+        document.getElementById("labelTempoh").textContent =
+          `20 ${NAMA_BULAN[mulaTempoh.getMonth()]} ${mulaTempoh.getFullYear()} – 19 ${NAMA_BULAN[tamatTempoh.getMonth()]} ${tamatTempoh.getFullYear()}`;
 
-        const badan = document.getElementById("badanKalendar");
-        badan.innerHTML = "";
+        const grid = document.getElementById("gridKalendar");
+        grid.innerHTML = "";
 
         const kosongAwal = mulaTempoh.getDay();
         for (let i = 0; i < kosongAwal; i++) {
-          badan.innerHTML += `<div></div>`;
+          grid.innerHTML += `<div></div>`;
         }
 
-        let kiraKerja = 0;
-        let kiraOff = 0;
-        let jamOtAuto = 0;
+        const hariIniISO = formatISO(new Date());
+        let hariKerja = 0;
+        let hariOff = 0;
+        let jumlahJamOt = 0;
+        let bayaranOt = 0;
+
+        const kadarSejamAsas = (negeri.gajiPokok / (negeri.hariKerjaBulan || 26)) / 8;
 
         for (let d = new Date(mulaTempoh); d <= tamatTempoh; d.setDate(d.getDate() + 1)) {
           const salinan = new Date(d);
-          const iso = formatISO(salinan);
-          const kod = kiraSyifAuto(salinan);
+          const info = dapatMaklumatHari(salinan);
 
-          if (kod === "OFF") {
-            kiraOff++;
+          if (info.kod === "OFF") {
+            hariOff++;
           } else {
-            kiraKerja++;
-            if (kod === "m" || kod === "n") jamOtAuto += 3;
+            hariKerja++;
           }
+          jumlahJamOt += info.jam;
+          bayaranOt += info.jam * kadarSejamAsas * info.ganda;
 
           const sel = document.createElement("div");
-          sel.className = "sel-tarikh";
-          sel.innerHTML = `<div class="no">${salinan.getDate()}</div><div class="kod ${kelasWarna(kod)}">${kod}</div>`;
-          sel.onclick = () => {
-            const semasa = kiraSyifAuto(salinan);
-            const seterusnya = SENARAI_KOD[(SENARAI_KOD.indexOf(semasa) + 1) % SENARAI_KOD.length];
-            data.manual[iso] = seterusnya;
-            localStorage.setItem("jadual_syif_q_v2", JSON.stringify(data));
-            paparKalendar();
-          };
-          badan.appendChild(sel);
+          sel.className = "sel";
+          if (info.iso === hariIniISO) sel.classList.add("hari-ini");
+          if (info.iso === tarikhDipilihISO) sel.classList.add("dipilih");
+
+          sel.innerHTML = `
+            <div class="no-hari">${salinan.getDate()}</div>
+            <div class="tag-kod ${kelasTag(info.kod)}">${info.kod}${info.manual ? "*" : ""}</div>
+          `;
+          sel.onclick = () => pilihTarikh(info.iso);
+          grid.appendChild(sel);
         }
 
-        const kadarSejam = (data.gajiPokok / 26) / 8;
-        const anggaranOt = jamOtAuto * kadarSejam * 1.5;
-        const jumlah = data.gajiPokok + anggaranOt;
+        document.getElementById("statKerja").textContent = String(hariKerja);
+        document.getElementById("statOff").textContent = String(hariOff);
+        document.getElementById("statOtJam").textContent = jumlahJamOt.toFixed(1);
 
-        document.getElementById("ringkasanSyif").textContent =
-          `Kerja: ${kiraKerja} hari • Cuti: ${kiraOff} hari • Auto OT (m/n): ${jamOtAuto} jam`;
-        document.getElementById("anggaranGaji").textContent =
-          `Anggaran Gaji: RM ${jumlah.toFixed(2)}`;
+        const gajiBersih = negeri.gajiPokok + bayaranOt + negeri.elaunTambahan - negeri.potonganLain;
+        document.getElementById("pecahanGaji").textContent =
+          `Pokok: RM ${negeri.gajiPokok.toFixed(2)} • OT: RM ${bayaranOt.toFixed(2)} • Elaun: +RM ${negeri.elaunTambahan.toFixed(2)} • Potongan: -RM ${negeri.potonganLain.toFixed(2)}`;
+        document.getElementById("jumlahGajiBersih").textContent =
+          `Anggaran Bersih: RM ${gajiBersih.toFixed(2)}`;
       }
 
-      paparKalendar();
+      function eksportJson() {
+        const kotak = document.getElementById("kotakSandaran");
+        kotak.style.display = "block";
+        kotak.value = JSON.stringify(negeri, null, 2);
+        kotak.select();
+      }
+
+      function resetSemuaData() {
+        if (!confirm("Padam semua tetapan dan perubahan manual Jadual Syif Q?")) return;
+        localStorage.removeItem("jadual_syif_q_penuh_v1");
+        location.reload();
+      }
+
+      muatInput();
+      pilihTarikh(tarikhDipilihISO);
     </script>
   </body>
 </html>
