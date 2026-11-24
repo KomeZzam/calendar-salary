@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d1117" />
+    <link rel="manifest" href="./manifest.json" />
     <title>Calendar $alary • KoMeZ</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -14,8 +16,8 @@
     <script type="text/babel">
       const { useState, useEffect, useMemo, useRef } = React;
 
-      /* Jadual Syif Q — versi React (satu fail, tiada Tailwind, tiada pakej tambahan).
-         Data guna kunci localStorage yang sama dengan app asal. */
+      /* Jadual Syif Q — versi React (mula kosong untuk pengguna baru).
+         Data disimpan berasingan dalam localStorage setiap peranti. */
 
       const CSS = `
       @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&display=swap');
@@ -114,7 +116,6 @@
       @media(prefers-reduced-motion:reduce){.kz *{animation:none!important;transition:none!important}}
       `;
 
-      /* ---------- Pembantu ---------- */
       const n = v => parseFloat(v) || 0;
       const cl = o => JSON.parse(JSON.stringify(o));
       const p2 = v => String(v).padStart(2, '0');
@@ -126,7 +127,7 @@
       const OFFSET = ['OFF', 'REST'];
 
       const DEF = {
-        shiftName: 'Jadual Syif Q', baseSalary: 3000, customHourlyRate: '', cycleStart: 20, cycleEnd: 19,
+        shiftName: 'Jadual Syif Q', baseSalary: 0, customHourlyRate: '', cycleStart: 20, cycleEnd: 19,
         allowances: { 'M': 0, 'N': 0, 'M<8': 0, 'N<8': 0, 'M<12': 0, 'N<12': 0 }, mealAllowance: 0,
         customAllowances: [{ id: 1, name: 'Elaun Kedatangan', amount: '' }, { id: 2, name: 'Elaun Eksekutif', amount: '' }],
         deductions: [{ id: 1, name: 'KWSP', amount: '' }, { id: 2, name: 'PERKESO', amount: '' }],
@@ -153,7 +154,6 @@
       const SunI = () => <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" /><g stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M12 1v3M12 20v3M1 12h3M20 12h3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" /></g></svg>;
       const MoonI = () => <svg viewBox="0 0 24 24"><path d="M21 13.5A9 9 0 1 1 10.5 3a7 7 0 0 0 10.5 10.5z" /></svg>;
 
-      /* ---------- Logik kiraan ---------- */
       const cfgFor = (ms, am) => {
         if (ms[am]) return ms[am];
         const p = Object.keys(ms).filter(m => m < am).sort();
@@ -214,7 +214,6 @@
         return cv;
       }
 
-      /* ---------- Komponen kecil ---------- */
       function CountUp({ value }) {
         const [v, setV] = useState(0), from = useRef(0);
         useEffect(() => {
@@ -231,7 +230,6 @@
       );
       const Num = ({ label, ...p }) => <div>{label && <label>{label}</label>}<input type="number" inputMode="decimal" {...p} /></div>;
 
-      /* ---------- App ---------- */
       function App() {
         const now = new Date();
         const [ms, setMs] = useState(() => LS('komez_monthly_settings') || {});
@@ -398,6 +396,21 @@
           if (!d) { toast('Data simpanan tidak sah'); return; }
           const when = d.timestamp ? new Date(d.timestamp).toLocaleString('ms-MY', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
           ask(`Ganti semua data semasa dengan data yang disimpan${when ? ' pada ' + when : ''}?`, () => { if (!applyBackup(d)) toast('Data simpanan tidak sah'); }, 'Ya, pulih', 'btn');
+        };
+        const resetAllData = () => {
+          ask('Padam semua tetapan dan rekod syif pada peranti ini supaya kembali kosong?', () => {
+            try {
+              localStorage.removeItem('komez_monthly_settings');
+              localStorage.removeItem('komez_shift_records');
+              localStorage.removeItem(BK);
+              localStorage.removeItem('komez_last_backup');
+            } catch (e) {}
+            setMs({});
+            setRec({});
+            setLastBackup('');
+            setModal(null);
+            toast('Semua data dikosongkan');
+          }, 'Ya, kosongkan', 'btn r');
         };
         const exportFile = async () => {
           const nw = new Date(), nm = `CalendarSalary_${p2(nw.getDate())}-${p2(nw.getMonth() + 1)}-${nw.getFullYear()}_${p2(nw.getHours())}-${p2(nw.getMinutes())}.json`;
@@ -639,7 +652,7 @@
                 <h4>Gaji dan kitaran</h4>
                 <label>Nama jadual</label><input value={s.shiftName || ''} onChange={e => setF('shiftName', e.target.value)} />
                 <div className="g2">
-                  <Num label="Gaji asas (RM)" value={s.baseSalary} onChange={e => setF('baseSalary', e.target.value)} />
+                  <Num label="Gaji asas (RM)" placeholder="0" value={s.baseSalary || ''} onChange={e => setF('baseSalary', e.target.value)} />
                   <Num label={n(s.baseSalary) >= 4000 ? 'Kadar sejam' : 'Kadar sejam (auto)'} readOnly={n(s.baseSalary) < 4000} value={n(s.baseSalary) >= 4000 ? s.customHourlyRate : (n(s.baseSalary) / 26 / 8).toFixed(2)} onChange={e => setF('customHourlyRate', e.target.value)} />
                   <Num label="Mula (hb)" value={s.cycleStart} onChange={e => setF('cycleStart', e.target.value)} />
                   <Num label="Tamat (hb)" value={s.cycleEnd} onChange={e => setF('cycleEnd', e.target.value)} />
@@ -679,7 +692,7 @@
                 ))}
 
                 <h4>Simpan dan panggil data</h4>
-                <p style={{ color: 'var(--mut)', fontSize: 12, margin: 0 }}>Data disimpan automatik dalam peranti. Simpan satu salinan sandaran untuk dipanggil semula bila perlu.</p>
+                <p style={{ color: 'var(--mut)', fontSize: 12, margin: 0 }}>Data disimpan automatik dalam peranti masing-masing. Simpan satu salinan sandaran untuk dipanggil semula bila perlu.</p>
                 <div className="g2">
                   <button className="btn g" onClick={saveSlot}>Simpan data</button>
                   <button className="btn g" onClick={restoreSlot}>Pulih data</button>
@@ -689,6 +702,7 @@
                   <button className="btn g" onClick={exportFile}>Export fail</button>
                   <button className="btn g" onClick={() => fileRef.current && fileRef.current.click()}>Import fail</button>
                 </div>
+                <button className="btn r" style={{ marginTop: 10 }} onClick={resetAllData}>Kosongkan semua data</button>
                 <input type="file" ref={fileRef} accept=".json" hidden onChange={importFile} />
               </Sheet>
             )}
@@ -724,6 +738,12 @@
       }
 
       ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').catch(() => {});
+        });
+      }
     </script>
   </body>
 </html>
