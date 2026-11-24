@@ -3,135 +3,291 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jadual Syif Q & Kiraan Gaji</title>
+    <title>Jadual Syif Q • KoMeZ</title>
     <style>
       body {
         font-family: Arial, sans-serif;
         background: #0f172a;
         color: #f8fafc;
         margin: 0;
-        padding: 20px;
+        padding: 16px;
       }
       .kad {
-        max-width: 440px;
-        margin: 0 auto;
+        max-width: 480px;
+        margin: 0 auto 16px auto;
         background: #1e293b;
         border-radius: 14px;
-        padding: 20px;
+        padding: 18px;
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
       }
       h1 {
-        font-size: 1.3rem;
-        margin-top: 0;
+        font-size: 1.25rem;
+        margin: 0 0 4px 0;
         color: #38bdf8;
+      }
+      .sub {
+        font-size: 0.82rem;
+        color: #94a3b8;
+        margin-bottom: 14px;
       }
       label {
         display: block;
-        margin-top: 12px;
-        font-size: 0.9rem;
+        margin-top: 10px;
+        font-size: 0.85rem;
         color: #cbd5e1;
       }
       input, select {
         width: 100%;
         box-sizing: border-box;
-        margin-top: 6px;
-        padding: 10px;
+        margin-top: 5px;
+        padding: 9px;
         border-radius: 8px;
         border: 1px solid #475569;
         background: #0f172a;
         color: #ffffff;
-        font-size: 1rem;
+        font-size: 0.95rem;
       }
-      button {
+      .baris-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .nav-bulan {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 14px 0 10px 0;
+        background: #0f172a;
+        padding: 8px 12px;
+        border-radius: 10px;
+      }
+      .btn-kecil {
+        background: #334155;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 6px 12px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .grid-kalendar {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 6px;
+        margin-top: 8px;
+      }
+      .hari-header {
+        text-align: center;
+        font-size: 0.72rem;
+        color: #94a3b8;
+        font-weight: bold;
+      }
+      .sel-tarikh {
+        background: #0f172a;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        padding: 6px 2px;
+        text-align: center;
+        cursor: pointer;
+        user-select: none;
+      }
+      .sel-tarikh .no {
+        font-size: 0.85rem;
+        font-weight: bold;
+      }
+      .sel-tarikh .kod {
+        font-size: 0.72rem;
+        margin-top: 3px;
+        padding: 2px 4px;
+        border-radius: 4px;
+        display: inline-block;
+        font-weight: bold;
+      }
+      .syif-m { background: #0284c7; color: #fff; }
+      .syif-n { background: #7c3aed; color: #fff; }
+      .syif-off { background: #16a34a; color: #fff; }
+      .syif-ot { background: #d97706; color: #fff; }
+      .btn-utama {
         width: 100%;
-        margin-top: 16px;
-        padding: 12px;
+        margin-top: 14px;
+        padding: 11px;
         border: none;
         border-radius: 8px;
         background: #22c55e;
         color: #052e16;
         font-weight: bold;
-        font-size: 1rem;
+        font-size: 0.95rem;
         cursor: pointer;
       }
       .hasil {
-        margin-top: 18px;
-        padding: 14px;
+        margin-top: 14px;
+        padding: 12px;
         border-radius: 10px;
         background: #0f172a;
         border-left: 4px solid #38bdf8;
       }
       .jumlah {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         font-weight: bold;
         color: #4ade80;
-        margin-top: 6px;
+        margin-top: 4px;
       }
     </style>
   </head>
   <body>
     <div class="kad">
-      <h1>Jadual Syif Q & Kiraan Gaji</h1>
-      <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 4px;">
-        Dibina oleh KoMeZ • Versi pantas di GitHub Pages
-      </p>
+      <h1>Jadual Syif Q</h1>
+      <div class="sub">Kitaran 4 Kerja 2 Cuti • Potongan Gaji 20hb – 19hb • KoMeZ</div>
 
-      <label for="gajiPokok">Gaji Pokok / Anggaran Bulanan (RM)</label>
-      <input id="gajiPokok" type="number" step="0.01" placeholder="Contoh: 2500" />
+      <div class="baris-2">
+        <div>
+          <label for="tarikhMula">Tarikh Mula Kitaran (Hari 1 = m)</label>
+          <input id="tarikhMula" type="date" onchange="simpanTetapan()" />
+        </div>
+        <div>
+          <label for="gajiPokok">Gaji Pokok (RM)</label>
+          <input id="gajiPokok" type="number" step="0.01" placeholder="2500" onchange="simpanTetapan()" />
+        </div>
+      </div>
 
-      <label for="jamOt">Jam Lebih Masa (OT)</label>
-      <input id="jamOt" type="number" step="0.5" placeholder="Contoh: 12" />
+      <div class="nav-bulan">
+        <button class="btn-kecil" onclick="tukarTempoh(-1)">◀</button>
+        <div id="tajukTempoh" style="font-size: 0.88rem; font-weight: bold; color: #e2e8f0;">Tempoh Gaji</div>
+        <button class="btn-kecil" onclick="tukarTempoh(1)">▶</button>
+      </div>
 
-      <label for="kadarOt">Kadar OT (RM / jam)</label>
-      <input id="kadarOt" type="number" step="0.01" placeholder="Contoh: 18" />
+      <div class="grid-kalendar">
+        <div class="hari-header">Ahd</div>
+        <div class="hari-header">Isn</div>
+        <div class="hari-header">Sel</div>
+        <div class="hari-header">Rab</div>
+        <div class="hari-header">Kha</div>
+        <div class="hari-header">Jum</div>
+        <div class="hari-header">Sab</div>
+      </div>
+      <div id="badanKalendar" class="grid-kalendar"></div>
 
-      <label for="kodSyif">Kod Syif Hari Ini</label>
-      <select id="kodSyif">
-        <option value="m">m (Siang)</option>
-        <option value="n">n (Malam)</option>
-        <option value="m<8">m&lt;8</option>
-        <option value="n<8">n&lt;8</option>
-        <option value="m<12">m&lt;12</option>
-        <option value="n<12">n&lt;12</option>
-      </select>
-
-      <button onclick="kiraGaji()">Kira & Simpan</button>
+      <div style="font-size: 0.75rem; color: #94a3b8; margin-top: 10px;">
+        * Tekan mana-mana tarikh di atas untuk tukar kod syif secara manual (m → n → m&lt;8 → n&lt;8 → m&lt;12 → n&lt;12 → OFF).
+      </div>
 
       <div class="hasil">
-        <div id="infoSyif" style="font-size: 0.9rem; color: #93c5fd;">Syif: m (Siang)</div>
-        <div class="jumlah" id="jumlahGaji">Jumlah: RM 0.00</div>
+        <div id="ringkasanSyif" style="font-size: 0.85rem; color: #93c5fd;"></div>
+        <div class="jumlah" id="anggaranGaji">Anggaran Gaji: RM 0.00</div>
       </div>
     </div>
 
     <script>
-      function muatData() {
-        const simpan = JSON.parse(localStorage.getItem("komez_gaji_v1") || "{}");
-        if (simpan.gajiPokok) document.getElementById("gajiPokok").value = simpan.gajiPokok;
-        if (simpan.jamOt) document.getElementById("jamOt").value = simpan.jamOt;
-        if (simpan.kadarOt) document.getElementById("kadarOt").value = simpan.kadarOt;
-        if (simpan.kodSyif) document.getElementById("kodSyif").value = simpan.kodSyif;
-        kiraGaji(false);
+      const SENARAI_KOD = ["m", "n", "m<8", "n<8", "m<12", "n<12", "OFF"];
+      // Kitaran 6 hari: 2 hari m, 2 hari n, 2 hari OFF (boleh klik mana-mana tarikh untuk ubah)
+      const KITARAN_ASAL = ["m", "m", "n", "n", "OFF", "OFF"];
+
+      let data = JSON.parse(localStorage.getItem("jadual_syif_q_v2") || "{}");
+      if (!data.tarikhMula) data.tarikhMula = "2026-11-20";
+      if (!data.gajiPokok) data.gajiPokok = 2500;
+      if (!data.manual) data.manual = {};
+
+      let rujukanBulan = new Date();
+      if (rujukanBulan.getDate() >= 20) {
+        rujukanBulan = new Date(rujukanBulan.getFullYear(), rujukanBulan.getMonth() + 1, 1);
       }
 
-      function kiraGaji(simpanKeStorage = true) {
-        const pokok = parseFloat(document.getElementById("gajiPokok").value) || 0;
-        const jam = parseFloat(document.getElementById("jamOt").value) || 0;
-        const kadar = parseFloat(document.getElementById("kadarOt").value) || 0;
-        const syif = document.getElementById("kodSyif").value;
+      document.getElementById("tarikhMula").value = data.tarikhMula;
+      document.getElementById("gajiPokok").value = data.gajiPokok;
 
-        const total = pokok + jam * kadar;
-        document.getElementById("infoSyif").textContent = "Syif dipilih: " + syif + " | OT: " + jam + " jam";
-        document.getElementById("jumlahGaji").textContent = "Jumlah: RM " + total.toFixed(2);
+      function simpanTetapan() {
+        data.tarikhMula = document.getElementById("tarikhMula").value;
+        data.gajiPokok = parseFloat(document.getElementById("gajiPokok").value) || 0;
+        localStorage.setItem("jadual_syif_q_v2", JSON.stringify(data));
+        paparKalendar();
+      }
 
-        if (simpanKeStorage) {
-          localStorage.setItem(
-            "komez_gaji_v1",
-            JSON.stringify({ gajiPokok: pokok, jamOt: jam, kadarOt: kadar, kodSyif: syif })
-          );
+      function tukarTempoh(arah) {
+        rujukanBulan = new Date(rujukanBulan.getFullYear(), rujukanBulan.getMonth() + arah, 1);
+        paparKalendar();
+      }
+
+      function formatISO(d) {
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${y}-${m}-${day}`;
+      }
+
+      function kiraSyifAuto(tarikh) {
+        const iso = formatISO(tarikh);
+        if (data.manual[iso]) return data.manual[iso];
+        const mula = new Date(data.tarikhMula + "T00:00:00");
+        const bezaHari = Math.floor((tarikh - mula) / (1000 * 60 * 60 * 24));
+        const indeks = ((bezaHari % 6) + 6) % 6;
+        return KITARAN_ASAL[indeks];
+      }
+
+      function kelasWarna(kod) {
+        if (kod === "OFF") return "syif-off";
+        if (kod === "m") return "syif-m";
+        if (kod === "n") return "syif-n";
+        return "syif-ot";
+      }
+
+      function paparKalendar() {
+        const tahun = rujukanBulan.getFullYear();
+        const bulan = rujukanBulan.getMonth();
+        const mulaTempoh = new Date(tahun, bulan - 1, 20);
+        const tamatTempoh = new Date(tahun, bulan, 19);
+
+        const namaBulan = ["Jan", "Feb", "Mac", "Apr", "Mei", "Jun", "Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"];
+        document.getElementById("tajukTempoh").textContent =
+          `20 ${namaBulan[mulaTempoh.getMonth()]} ${mulaTempoh.getFullYear()} – 19 ${namaBulan[tamatTempoh.getMonth()]} ${tamatTempoh.getFullYear()}`;
+
+        const badan = document.getElementById("badanKalendar");
+        badan.innerHTML = "";
+
+        const kosongAwal = mulaTempoh.getDay();
+        for (let i = 0; i < kosongAwal; i++) {
+          badan.innerHTML += `<div></div>`;
         }
+
+        let kiraKerja = 0;
+        let kiraOff = 0;
+        let jamOtAuto = 0;
+
+        for (let d = new Date(mulaTempoh); d <= tamatTempoh; d.setDate(d.getDate() + 1)) {
+          const salinan = new Date(d);
+          const iso = formatISO(salinan);
+          const kod = kiraSyifAuto(salinan);
+
+          if (kod === "OFF") {
+            kiraOff++;
+          } else {
+            kiraKerja++;
+            if (kod === "m" || kod === "n") jamOtAuto += 3;
+          }
+
+          const sel = document.createElement("div");
+          sel.className = "sel-tarikh";
+          sel.innerHTML = `<div class="no">${salinan.getDate()}</div><div class="kod ${kelasWarna(kod)}">${kod}</div>`;
+          sel.onclick = () => {
+            const semasa = kiraSyifAuto(salinan);
+            const seterusnya = SENARAI_KOD[(SENARAI_KOD.indexOf(semasa) + 1) % SENARAI_KOD.length];
+            data.manual[iso] = seterusnya;
+            localStorage.setItem("jadual_syif_q_v2", JSON.stringify(data));
+            paparKalendar();
+          };
+          badan.appendChild(sel);
+        }
+
+        const kadarSejam = (data.gajiPokok / 26) / 8;
+        const anggaranOt = jamOtAuto * kadarSejam * 1.5;
+        const jumlah = data.gajiPokok + anggaranOt;
+
+        document.getElementById("ringkasanSyif").textContent =
+          `Kerja: ${kiraKerja} hari • Cuti: ${kiraOff} hari • Auto OT (m/n): ${jamOtAuto} jam`;
+        document.getElementById("anggaranGaji").textContent =
+          `Anggaran Gaji: RM ${jumlah.toFixed(2)}`;
       }
 
-      muatData();
+      paparKalendar();
     </script>
   </body>
 </html>
