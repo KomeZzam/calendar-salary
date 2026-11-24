@@ -81,7 +81,6 @@
       .kz .cell .nt{margin-top:auto;font-size:8px;background:rgba(255,255,255,.92);color:#111;border-radius:4px;padding:0 3px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;text-align:center}
       .kz .cell .rm{font-size:8px;font-weight:700;opacity:.8;text-align:center}
       .kz .cell .heat{position:absolute;left:0;bottom:0;height:3px;background:#fff;opacity:.9}
-      .kz .cell .edge{position:absolute;left:5px;bottom:3px;font-size:7px;font-weight:700;opacity:.7}
       .kz .legend{display:flex;gap:12px;justify-content:center;margin:10px 0;font-size:11px;color:var(--mut);flex-wrap:wrap}
       .kz .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px}
       .kz .card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:12px}
@@ -540,8 +539,6 @@
                     const hasShift = !!sh && !OFFSET.includes(sh);
                     const k = off ? 'o' : hasShift ? (sh[0] === 'N' ? 'n' : 'm') : '';
                     const e = dayEarn(r, s, S.br);
-                    const isCycStart = d.s === cyc[0]?.s;
-                    const isCycEnd = d.s === cyc[cyc.length - 1]?.s;
                     return (
                       <button key={d.s} className={`cell ${k} ${d.s === td ? 'today' : ''}`} onClick={() => openDay(d.s)}>
                         <span className="d">{d.dt.getDate()}</span>
@@ -560,7 +557,6 @@
                         {ui.earn && e > 0 && <span className="rm">RM{Math.round(e)}</span>}
                         {r.note && <span className="nt">{r.note}</span>}
                         {ui.showOt && n(r.ot) > 0 && <span className="heat" style={{ width: Math.min(100, n(r.ot) / 8 * 100) + '%' }} />}
-                        {isCycStart ? <span className="edge">MULA</span> : isCycEnd ? <span className="edge">TAMAT</span> : null}
                       </button>
                     );
                   })}
