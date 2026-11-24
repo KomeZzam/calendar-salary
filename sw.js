@@ -1,4 +1,4 @@
-const CACHE_NAME = 'calendar-salary-v1';
+const CACHE_NAME = 'calendar-salary-v2';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
